@@ -1,0 +1,595 @@
+#
+#Component attribute names
+#
+@0 .comp_mount_type
+@1 .comp_height
+
+# CMP 0
+CMP 8 7.816 3.077 0 N D4_MOSFET_HighPower6 SK34 ;0=1,1=0.0902
+PRP Assembly 'SMD'
+PRP Barcode '0100000007488'
+PRP Category 'Discrete Semiconductor Products'
+PRP Current__Average_Rectified '3A'
+PRP Datasheet_URL 'http://www.vishay.com/docs/88896/b330la.pdf'
+PRP Diode_Type 'Schottky'
+PRP Family 'DIODE'
+PRP id '62'
+PRP item_id '1025'
+PRP Manufacturer 'Vishay Semiconductor Diodes Division'
+PRP Manufacturer_Part_Number 'SK34'
+PRP Package_Case 'DO-214AC, SMA'
+PRP Part_Type 'Discrete Semiconductors'
+PRP Recommended_Rating 'Silver'
+PRP Speed 'Fast Recovery =< 500ns, > 200mA (Io)'
+PRP Voltage__DC_Reverse '40V'
+PRP Voltage__Forward '550mV @ 3A'
+TOP 0 7.8967087 3.077 180 N 17 82 D4_MOSFET_HighPower6-1
+TOP 1 7.7352913 3.077 180 N 15 2 D4_MOSFET_HighPower6-2
+#
+# CMP 1
+CMP 3 8.1105906 2.21264 0 N C24 100n ;0=1,1=0.0000
+PRP Capacitance '100n'
+TOP 0 8.1105906 2.2421676 180 N 84 59 C24-1
+TOP 1 8.1105906 2.1831124 180 N 19 12 C24-2
+#
+# CMP 2
+CMP 3 7.9655906 2.29764 270 N C23 100n ;0=1,1=0.0000
+PRP Capacitance '100n'
+TOP 0 7.9951182 2.29764 270 N 84 58 C23-1
+TOP 1 7.936063 2.29764 270 N 19 11 C23-2
+#
+# CMP 3
+CMP 18 9.2453701 1.1641417 90 N U7 MAX485 ;0=1,1=0.0000
+PRP Manufacturer_Part_Number 'MAX485'
+TOP 0 9.17 1.2589764 180 N 31 0 U7-1
+TOP 1 9.22 1.2589764 180 N 25 1 U7-2
+TOP 2 9.27 1.2589764 180 N 25 0 U7-3
+TOP 3 9.32 1.2589764 180 N 32 0 U7-4
+TOP 4 9.32 1.07 180 N 84 57 U7-5
+TOP 5 9.27 1.07 180 N 63 0 U7-6
+TOP 6 9.22 1.07 180 N 62 0 U7-7
+TOP 7 9.17 1.07 180 N 19 10 U7-8
+#
+# CMP 4
+CMP 20 8.55 1.721 90 N U3 LM2937-5 ;0=1,1=0.0709
+PRP Datasheet_Link 'http://www.ti.com/lit/ds/symlink/lm2937.pdf'
+PRP Manufacturer_Part_Number 'LM2937-5'
+TOP 0 8.6720472 1.8115511 90 N 18 4 U3-1
+TOP 1 8.6720472 1.7210001 90 N 84 56 U3-2
+TOP 2 8.6720472 1.6304487 90 N 19 9 U3-3
+TOP 3 8.4279527 1.7209999 90 N 84 55 U3-4
+#
+# CMP 5
+CMP 18 9.1358583 1.6303701 180 N U2 SN65HVD230DR ;0=1,1=0.0000
+PRP Assembly 'SMD'
+PRP Barcode '00000001'
+PRP Category 'Integrated Circuits (ICs)'
+PRP Comet_Product_Page 'http://store.comet.rs/Catalogue/Product/9057/'
+PRP Datasheet_Link 'http://www.ti.com/lit/ds/symlink/sn65hvd232.pdf'
+PRP Family 'Comunication'
+PRP Manufacturer_Part_Number 'SN65HVD230DR'
+PRP Package 'SOIC-8'
+TOP 0 9.0410236 1.555 90 N 96 0 U2-1
+TOP 1 9.0410236 1.605 90 N 84 54 U2-2
+TOP 2 9.0410236 1.655 90 N 98 1 U2-3
+TOP 3 9.0410236 1.705 90 N 97 0 U2-4
+TOP 4 9.23 1.705 90 N 0 17 U2-5
+TOP 5 9.23 1.655 90 N 65 1 U2-6
+TOP 6 9.23 1.605 90 N 66 1 U2-7
+TOP 7 9.23 1.555 90 N 44 1 U2-8
+#
+# CMP 6
+CMP 15 6.355 0.997 0 N R17_MOSFET_LowPower6 4.7k ;0=1,1=0.0236
+PRP Assembly 'SMD'
+PRP Barcode '00004701'
+PRP Power '0.125W, 1/8W'
+PRP Resistance '4.7k'
+TOP 0 6.355 1.0363702 180 N 84 53 R17_MOSFET_LowPower6-1
+TOP 1 6.355 0.95763 180 N 51 3 R17_MOSFET_LowPower6-2
+#
+# CMP 7
+CMP 15 6.87 2.237 0 N R17_MOSFET_LowPower5 4.7k ;0=1,1=0.0236
+PRP Assembly 'SMD'
+PRP Barcode '00004701'
+PRP Power '0.125W, 1/8W'
+PRP Resistance '4.7k'
+TOP 0 6.87 2.2763702 180 N 84 52 R17_MOSFET_LowPower5-1
+TOP 1 6.87 2.19763 180 N 52 3 R17_MOSFET_LowPower5-2
+#
+# CMP 8
+CMP 15 6.97 0.997 0 N R17_MOSFET_LowPower4 4.7k ;0=1,1=0.0236
+PRP Assembly 'SMD'
+PRP Barcode '00004701'
+PRP Power '0.125W, 1/8W'
+PRP Resistance '4.7k'
+TOP 0 6.97 1.0363702 180 N 84 51 R17_MOSFET_LowPower4-1
+TOP 1 6.97 0.95763 180 N 53 3 R17_MOSFET_LowPower4-2
+#
+# CMP 9
+CMP 15 6.255 1.617 0 N R17_MOSFET_LowPower3 4.7k ;0=1,1=0.0236
+PRP Assembly 'SMD'
+PRP Barcode '00004701'
+PRP Power '0.125W, 1/8W'
+PRP Resistance '4.7k'
+TOP 0 6.255 1.6563702 180 N 84 50 R17_MOSFET_LowPower3-1
+TOP 1 6.255 1.57763 180 N 54 3 R17_MOSFET_LowPower3-2
+#
+# CMP 10
+CMP 15 6.87 1.617 0 N R17_MOSFET_LowPower2 4.7k ;0=1,1=0.0236
+PRP Assembly 'SMD'
+PRP Barcode '00004701'
+PRP Power '0.125W, 1/8W'
+PRP Resistance '4.7k'
+TOP 0 6.87 1.6563702 180 N 84 49 R17_MOSFET_LowPower2-1
+TOP 1 6.87 1.57763 180 N 55 3 R17_MOSFET_LowPower2-2
+#
+# CMP 11
+CMP 15 6.255 2.237 0 N R17_MOSFET_LowPower1 4.7k ;0=1,1=0.0236
+PRP Assembly 'SMD'
+PRP Barcode '00004701'
+PRP Power '0.125W, 1/8W'
+PRP Resistance '4.7k'
+TOP 0 6.255 2.2763702 180 N 84 48 R17_MOSFET_LowPower1-1
+TOP 1 6.255 2.19763 180 N 56 3 R17_MOSFET_LowPower1-2
+#
+# CMP 12
+CMP 15 6.5993701 0.997 0 N R15_MOSFET_LowPower6 100R ;0=1,1=0.0236
+PRP Assembly 'SMD'
+PRP Barcode '00001000'
+PRP Power '0.125W, 1/8W'
+PRP Resistance '100R'
+TOP 0 6.5993701 1.0363702 180 N 33 1 R15_MOSFET_LowPower6-1
+TOP 1 6.5993701 0.95763 180 N 51 2 R15_MOSFET_LowPower6-2
+#
+# CMP 13
+CMP 15 7.1143701 2.237 0 N R15_MOSFET_LowPower5 100R ;0=1,1=0.0236
+PRP Assembly 'SMD'
+PRP Barcode '00001000'
+PRP Power '0.125W, 1/8W'
+PRP Resistance '100R'
+TOP 0 7.1143701 2.2763702 180 N 34 1 R15_MOSFET_LowPower5-1
+TOP 1 7.1143701 2.19763 180 N 52 2 R15_MOSFET_LowPower5-2
+#
+# CMP 14
+CMP 15 7.2143701 0.997 0 N R15_MOSFET_LowPower4 100R ;0=1,1=0.0236
+PRP Assembly 'SMD'
+PRP Barcode '00001000'
+PRP Power '0.125W, 1/8W'
+PRP Resistance '100R'
+TOP 0 7.2143701 1.0363702 180 N 35 1 R15_MOSFET_LowPower4-1
+TOP 1 7.2143701 0.95763 180 N 53 2 R15_MOSFET_LowPower4-2
+#
+# CMP 15
+CMP 15 6.4993701 1.617 0 N R15_MOSFET_LowPower3 100R ;0=1,1=0.0236
+PRP Assembly 'SMD'
+PRP Barcode '00001000'
+PRP Power '0.125W, 1/8W'
+PRP Resistance '100R'
+TOP 0 6.4993701 1.6563702 180 N 36 1 R15_MOSFET_LowPower3-1
+TOP 1 6.4993701 1.57763 180 N 54 2 R15_MOSFET_LowPower3-2
+#
+# CMP 16
+CMP 15 7.1143701 1.617 0 N R15_MOSFET_LowPower2 100R ;0=1,1=0.0236
+PRP Assembly 'SMD'
+PRP Barcode '00001000'
+PRP Power '0.125W, 1/8W'
+PRP Resistance '100R'
+TOP 0 7.1143701 1.6563702 180 N 37 1 R15_MOSFET_LowPower2-1
+TOP 1 7.1143701 1.57763 180 N 55 2 R15_MOSFET_LowPower2-2
+#
+# CMP 17
+CMP 15 6.4993701 2.237 0 N R15_MOSFET_LowPower1 100R ;0=1,1=0.0236
+PRP Assembly 'SMD'
+PRP Barcode '00001000'
+PRP Power '0.125W, 1/8W'
+PRP Resistance '100R'
+TOP 0 6.4993701 2.2763702 180 N 38 1 R15_MOSFET_LowPower1-1
+TOP 1 6.4993701 2.19763 180 N 56 2 R15_MOSFET_LowPower1-2
+#
+# CMP 18
+CMP 15 9.1908583 1.4753701 90 N R12 10k ;0=1,1=0.0236
+PRP Resistance '10k'
+TOP 0 9.1514881 1.4753701 90 N 84 47 R12-1
+TOP 1 9.2302283 1.4753701 90 N 44 0 R12-2
+#
+# CMP 19
+CMP 15 9.5758581 1.6453701 180 N R11 120R ;0=1,1=0.0236
+PRP Resistance '120R'
+TOP 0 9.5758581 1.6059999 0 N 66 0 R11-1
+TOP 1 9.5758581 1.6847401 0 N 65 0 R11-2
+#
+# CMP 20
+CMP 15 8.85 2.922 180 N R7 2.7k ;0=1,1=0.0236
+PRP Assembly 'SMD'
+PRP Barcode '00004701'
+PRP Power '0.125W, 1/8W'
+PRP Resistance '2.7k'
+TOP 0 8.85 2.8826298 0 N 84 46 R7-1
+TOP 1 8.85 2.96137 0 N 81 4 R7-2
+#
+# CMP 21
+CMP 21 6.494685 0.9944016 270 N Q3_MOSFET_LowPower6 IRLML0030TRPBF ;0=1,1=0.0000
+PRP Manufacturer 'INFINEON'
+PRP Manufacturer_Part_Number 'IRLML0030TRPBF'
+PRP Order_Code 'IRLML0030'
+PRP Package 'SOT-23'
+PRP Price '0.11'
+PRP Supplier 'Comet.rs'
+TOP 0 6.425 0.957 270 N 51 1 Q3_MOSFET_LowPower6-1
+TOP 1 6.425 1.0318032 270 N 84 45 Q3_MOSFET_LowPower6-2
+TOP 2 6.494685 0.9944016 270 N 68 2 Q3_MOSFET_LowPower6-3
+#
+# CMP 22
+CMP 21 7.009685 2.2344016 270 N Q3_MOSFET_LowPower5 IRLML0030TRPBF ;0=1,1=0.0000
+PRP Manufacturer 'INFINEON'
+PRP Manufacturer_Part_Number 'IRLML0030TRPBF'
+PRP Order_Code 'IRLML0030'
+PRP Package 'SOT-23'
+PRP Price '0.11'
+PRP Supplier 'Comet.rs'
+TOP 0 6.94 2.197 270 N 52 1 Q3_MOSFET_LowPower5-1
+TOP 1 6.94 2.2718032 270 N 84 44 Q3_MOSFET_LowPower5-2
+TOP 2 7.009685 2.2344016 270 N 69 2 Q3_MOSFET_LowPower5-3
+#
+# CMP 23
+CMP 21 7.109685 0.9944016 270 N Q3_MOSFET_LowPower4 IRLML0030TRPBF ;0=1,1=0.0000
+PRP Manufacturer 'INFINEON'
+PRP Manufacturer_Part_Number 'IRLML0030TRPBF'
+PRP Order_Code 'IRLML0030'
+PRP Package 'SOT-23'
+PRP Price '0.11'
+PRP Supplier 'Comet.rs'
+TOP 0 7.04 0.957 270 N 53 1 Q3_MOSFET_LowPower4-1
+TOP 1 7.04 1.0318032 270 N 84 43 Q3_MOSFET_LowPower4-2
+TOP 2 7.109685 0.9944016 270 N 70 3 Q3_MOSFET_LowPower4-3
+#
+# CMP 24
+CMP 21 6.394685 1.6144016 270 N Q3_MOSFET_LowPower3 IRLML0030TRPBF ;0=1,1=0.0000
+PRP Manufacturer 'INFINEON'
+PRP Manufacturer_Part_Number 'IRLML0030TRPBF'
+PRP Order_Code 'IRLML0030'
+PRP Package 'SOT-23'
+PRP Price '0.11'
+PRP Supplier 'Comet.rs'
+TOP 0 6.325 1.577 270 N 54 1 Q3_MOSFET_LowPower3-1
+TOP 1 6.325 1.6518032 270 N 84 42 Q3_MOSFET_LowPower3-2
+TOP 2 6.394685 1.6144016 270 N 71 2 Q3_MOSFET_LowPower3-3
+#
+# CMP 25
+CMP 21 7.009685 1.6144016 270 N Q3_MOSFET_LowPower2 IRLML0030TRPBF ;0=1,1=0.0000
+PRP Manufacturer 'INFINEON'
+PRP Manufacturer_Part_Number 'IRLML0030TRPBF'
+PRP Order_Code 'IRLML0030'
+PRP Package 'SOT-23'
+PRP Price '0.11'
+PRP Supplier 'Comet.rs'
+TOP 0 6.94 1.577 270 N 55 1 Q3_MOSFET_LowPower2-1
+TOP 1 6.94 1.6518032 270 N 84 41 Q3_MOSFET_LowPower2-2
+TOP 2 7.009685 1.6144016 270 N 72 3 Q3_MOSFET_LowPower2-3
+#
+# CMP 26
+CMP 21 6.394685 2.2344016 270 N Q3_MOSFET_LowPower1 IRLML0030TRPBF ;0=1,1=0.0000
+PRP Manufacturer 'INFINEON'
+PRP Manufacturer_Part_Number 'IRLML0030TRPBF'
+PRP Order_Code 'IRLML0030'
+PRP Package 'SOT-23'
+PRP Price '0.11'
+PRP Supplier 'Comet.rs'
+TOP 0 6.325 2.197 270 N 56 1 Q3_MOSFET_LowPower1-1
+TOP 1 6.325 2.2718032 270 N 84 40 Q3_MOSFET_LowPower1-2
+TOP 2 6.394685 2.2344016 270 N 73 2 Q3_MOSFET_LowPower1-3
+#
+# CMP 27
+CMP 7 9.015 3.127 270 N Q1 IRF9540NSPBF ;0=1,1=0.0512
+PRP Manufacturer 'INTERNATIONAL RECTIFIER'
+PRP Manufacturer_Part_Number 'IRF9540NSPBF'
+PRP Order_Code 'IRF9540NS'
+PRP Package 'TO-263 SMD'
+PRP Price 'DIN 62.54'
+PRP Supplier 'Comet.rs'
+TOP 0 8.851937 3.0245 90 N 81 3 Q1-1
+TOP 1 9.3317953 3.1245 90 N 67 2 Q1-2
+TOP 2 8.851937 3.2245 90 N 17 81 Q1-3
+#
+# CMP 28
+CMP 8 6.665 1.282 270 N D5_MOSFET_LowPower6 SK34 ;0=1,1=0.0902
+PRP Assembly 'SMD'
+PRP Barcode '0100000007488'
+PRP Category 'Discrete Semiconductor Products'
+PRP Current__Average_Rectified '3A'
+PRP Datasheet_URL 'http://www.vishay.com/docs/88896/b330la.pdf'
+PRP Diode_Type 'Schottky'
+PRP Family 'DIODE'
+PRP id '62'
+PRP item_id '1025'
+PRP Manufacturer 'Vishay Semiconductor Diodes Division'
+PRP Manufacturer_Part_Number 'SK34'
+PRP Package_Case 'DO-214AC, SMA'
+PRP Part_Type 'Discrete Semiconductors'
+PRP Recommended_Rating 'Silver'
+PRP Speed 'Fast Recovery =< 500ns, > 200mA (Io)'
+PRP Voltage__DC_Reverse '40V'
+PRP Voltage__Forward '550mV @ 3A'
+TOP 0 6.665 1.2012913 270 N 17 80 D5_MOSFET_LowPower6-1
+TOP 1 6.665 1.3627087 270 N 68 1 D5_MOSFET_LowPower6-2
+#
+# CMP 29
+CMP 8 7.18 2.522 270 N D5_MOSFET_LowPower5 SK34 ;0=1,1=0.0902
+PRP Assembly 'SMD'
+PRP Barcode '0100000007488'
+PRP Category 'Discrete Semiconductor Products'
+PRP Current__Average_Rectified '3A'
+PRP Datasheet_URL 'http://www.vishay.com/docs/88896/b330la.pdf'
+PRP Diode_Type 'Schottky'
+PRP Family 'DIODE'
+PRP id '62'
+PRP item_id '1025'
+PRP Manufacturer 'Vishay Semiconductor Diodes Division'
+PRP Manufacturer_Part_Number 'SK34'
+PRP Package_Case 'DO-214AC, SMA'
+PRP Part_Type 'Discrete Semiconductors'
+PRP Recommended_Rating 'Silver'
+PRP Speed 'Fast Recovery =< 500ns, > 200mA (Io)'
+PRP Voltage__DC_Reverse '40V'
+PRP Voltage__Forward '550mV @ 3A'
+TOP 0 7.18 2.4412913 270 N 17 79 D5_MOSFET_LowPower5-1
+TOP 1 7.18 2.6027087 270 N 69 1 D5_MOSFET_LowPower5-2
+#
+# CMP 30
+CMP 8 7.28 1.282 270 N D5_MOSFET_LowPower4 SK34 ;0=1,1=0.0902
+PRP Assembly 'SMD'
+PRP Barcode '0100000007488'
+PRP Category 'Discrete Semiconductor Products'
+PRP Current__Average_Rectified '3A'
+PRP Datasheet_URL 'http://www.vishay.com/docs/88896/b330la.pdf'
+PRP Diode_Type 'Schottky'
+PRP Family 'DIODE'
+PRP id '62'
+PRP item_id '1025'
+PRP Manufacturer 'Vishay Semiconductor Diodes Division'
+PRP Manufacturer_Part_Number 'SK34'
+PRP Package_Case 'DO-214AC, SMA'
+PRP Part_Type 'Discrete Semiconductors'
+PRP Recommended_Rating 'Silver'
+PRP Speed 'Fast Recovery =< 500ns, > 200mA (Io)'
+PRP Voltage__DC_Reverse '40V'
+PRP Voltage__Forward '550mV @ 3A'
+TOP 0 7.28 1.2012913 270 N 17 78 D5_MOSFET_LowPower4-1
+TOP 1 7.28 1.3627087 270 N 70 2 D5_MOSFET_LowPower4-2
+#
+# CMP 31
+CMP 8 6.565 1.902 270 N D5_MOSFET_LowPower3 SK34 ;0=1,1=0.0902
+PRP Assembly 'SMD'
+PRP Barcode '0100000007488'
+PRP Category 'Discrete Semiconductor Products'
+PRP Current__Average_Rectified '3A'
+PRP Datasheet_URL 'http://www.vishay.com/docs/88896/b330la.pdf'
+PRP Diode_Type 'Schottky'
+PRP Family 'DIODE'
+PRP id '62'
+PRP item_id '1025'
+PRP Manufacturer 'Vishay Semiconductor Diodes Division'
+PRP Manufacturer_Part_Number 'SK34'
+PRP Package_Case 'DO-214AC, SMA'
+PRP Part_Type 'Discrete Semiconductors'
+PRP Recommended_Rating 'Silver'
+PRP Speed 'Fast Recovery =< 500ns, > 200mA (Io)'
+PRP Voltage__DC_Reverse '40V'
+PRP Voltage__Forward '550mV @ 3A'
+TOP 0 6.565 1.8212913 270 N 17 77 D5_MOSFET_LowPower3-1
+TOP 1 6.565 1.9827087 270 N 71 1 D5_MOSFET_LowPower3-2
+#
+# CMP 32
+CMP 8 7.18 1.902 270 N D5_MOSFET_LowPower2 SK34 ;0=1,1=0.0902
+PRP Assembly 'SMD'
+PRP Barcode '0100000007488'
+PRP Category 'Discrete Semiconductor Products'
+PRP Current__Average_Rectified '3A'
+PRP Datasheet_URL 'http://www.vishay.com/docs/88896/b330la.pdf'
+PRP Diode_Type 'Schottky'
+PRP Family 'DIODE'
+PRP id '62'
+PRP item_id '1025'
+PRP Manufacturer 'Vishay Semiconductor Diodes Division'
+PRP Manufacturer_Part_Number 'SK34'
+PRP Package_Case 'DO-214AC, SMA'
+PRP Part_Type 'Discrete Semiconductors'
+PRP Recommended_Rating 'Silver'
+PRP Speed 'Fast Recovery =< 500ns, > 200mA (Io)'
+PRP Voltage__DC_Reverse '40V'
+PRP Voltage__Forward '550mV @ 3A'
+TOP 0 7.18 1.8212913 270 N 17 76 D5_MOSFET_LowPower2-1
+TOP 1 7.18 1.9827087 270 N 72 2 D5_MOSFET_LowPower2-2
+#
+# CMP 33
+CMP 8 6.565 2.522 270 N D5_MOSFET_LowPower1 SK34 ;0=1,1=0.0902
+PRP Assembly 'SMD'
+PRP Barcode '0100000007488'
+PRP Category 'Discrete Semiconductor Products'
+PRP Current__Average_Rectified '3A'
+PRP Datasheet_URL 'http://www.vishay.com/docs/88896/b330la.pdf'
+PRP Diode_Type 'Schottky'
+PRP Family 'DIODE'
+PRP id '62'
+PRP item_id '1025'
+PRP Manufacturer 'Vishay Semiconductor Diodes Division'
+PRP Manufacturer_Part_Number 'SK34'
+PRP Package_Case 'DO-214AC, SMA'
+PRP Part_Type 'Discrete Semiconductors'
+PRP Recommended_Rating 'Silver'
+PRP Speed 'Fast Recovery =< 500ns, > 200mA (Io)'
+PRP Voltage__DC_Reverse '40V'
+PRP Voltage__Forward '550mV @ 3A'
+TOP 0 6.565 2.4412913 270 N 17 75 D5_MOSFET_LowPower1-1
+TOP 1 6.565 2.6027087 270 N 73 1 D5_MOSFET_LowPower1-2
+#
+# CMP 34
+CMP 8 9.844 4.181 180 N D4_MOSFET_HighPower5 SK34 ;0=1,1=0.0902
+PRP Assembly 'SMD'
+PRP Barcode '0100000007488'
+PRP Category 'Discrete Semiconductor Products'
+PRP Current__Average_Rectified '3A'
+PRP Datasheet_URL 'http://www.vishay.com/docs/88896/b330la.pdf'
+PRP Diode_Type 'Schottky'
+PRP Family 'DIODE'
+PRP id '62'
+PRP item_id '1025'
+PRP Manufacturer 'Vishay Semiconductor Diodes Division'
+PRP Manufacturer_Part_Number 'SK34'
+PRP Package_Case 'DO-214AC, SMA'
+PRP Part_Type 'Discrete Semiconductors'
+PRP Recommended_Rating 'Silver'
+PRP Speed 'Fast Recovery =< 500ns, > 200mA (Io)'
+PRP Voltage__DC_Reverse '40V'
+PRP Voltage__Forward '550mV @ 3A'
+TOP 0 9.7632913 4.181 0 N 17 74 D4_MOSFET_HighPower5-1
+TOP 1 9.9247087 4.181 0 N 74 4 D4_MOSFET_HighPower5-2
+#
+# CMP 35
+CMP 8 8.891 4.181 180 N D4_MOSFET_HighPower4 SK34 ;0=1,1=0.0902
+PRP Assembly 'SMD'
+PRP Barcode '0100000007488'
+PRP Category 'Discrete Semiconductor Products'
+PRP Current__Average_Rectified '3A'
+PRP Datasheet_URL 'http://www.vishay.com/docs/88896/b330la.pdf'
+PRP Diode_Type 'Schottky'
+PRP Family 'DIODE'
+PRP id '62'
+PRP item_id '1025'
+PRP Manufacturer 'Vishay Semiconductor Diodes Division'
+PRP Manufacturer_Part_Number 'SK34'
+PRP Package_Case 'DO-214AC, SMA'
+PRP Part_Type 'Discrete Semiconductors'
+PRP Recommended_Rating 'Silver'
+PRP Speed 'Fast Recovery =< 500ns, > 200mA (Io)'
+PRP Voltage__DC_Reverse '40V'
+PRP Voltage__Forward '550mV @ 3A'
+TOP 0 8.8102913 4.181 0 N 17 73 D4_MOSFET_HighPower4-1
+TOP 1 8.9717087 4.181 0 N 75 4 D4_MOSFET_HighPower4-2
+#
+# CMP 36
+CMP 8 7.931 4.181 180 N D4_MOSFET_HighPower3 SK34 ;0=1,1=0.0902
+PRP Assembly 'SMD'
+PRP Barcode '0100000007488'
+PRP Category 'Discrete Semiconductor Products'
+PRP Current__Average_Rectified '3A'
+PRP Datasheet_URL 'http://www.vishay.com/docs/88896/b330la.pdf'
+PRP Diode_Type 'Schottky'
+PRP Family 'DIODE'
+PRP id '62'
+PRP item_id '1025'
+PRP Manufacturer 'Vishay Semiconductor Diodes Division'
+PRP Manufacturer_Part_Number 'SK34'
+PRP Package_Case 'DO-214AC, SMA'
+PRP Part_Type 'Discrete Semiconductors'
+PRP Recommended_Rating 'Silver'
+PRP Speed 'Fast Recovery =< 500ns, > 200mA (Io)'
+PRP Voltage__DC_Reverse '40V'
+PRP Voltage__Forward '550mV @ 3A'
+TOP 0 7.8502913 4.181 0 N 17 72 D4_MOSFET_HighPower3-1
+TOP 1 8.0117087 4.181 0 N 76 4 D4_MOSFET_HighPower3-2
+#
+# CMP 37
+CMP 8 6.969 4.18 180 N D4_MOSFET_HighPower2 SK34 ;0=1,1=0.0902
+PRP Assembly 'SMD'
+PRP Barcode '0100000007488'
+PRP Category 'Discrete Semiconductor Products'
+PRP Current__Average_Rectified '3A'
+PRP Datasheet_URL 'http://www.vishay.com/docs/88896/b330la.pdf'
+PRP Diode_Type 'Schottky'
+PRP Family 'DIODE'
+PRP id '62'
+PRP item_id '1025'
+PRP Manufacturer 'Vishay Semiconductor Diodes Division'
+PRP Manufacturer_Part_Number 'SK34'
+PRP Package_Case 'DO-214AC, SMA'
+PRP Part_Type 'Discrete Semiconductors'
+PRP Recommended_Rating 'Silver'
+PRP Speed 'Fast Recovery =< 500ns, > 200mA (Io)'
+PRP Voltage__DC_Reverse '40V'
+PRP Voltage__Forward '550mV @ 3A'
+TOP 0 6.8882913 4.18 0 N 17 71 D4_MOSFET_HighPower2-1
+TOP 1 7.0497087 4.18 0 N 77 21 D4_MOSFET_HighPower2-2
+#
+# CMP 38
+CMP 8 6.685 3.443 270 N D4_MOSFET_HighPower1 SK34 ;0=1,1=0.0902
+PRP Assembly 'SMD'
+PRP Barcode '0100000007488'
+PRP Category 'Discrete Semiconductor Products'
+PRP Current__Average_Rectified '3A'
+PRP Datasheet_URL 'http://www.vishay.com/docs/88896/b330la.pdf'
+PRP Diode_Type 'Schottky'
+PRP Family 'DIODE'
+PRP id '62'
+PRP item_id '1025'
+PRP Manufacturer 'Vishay Semiconductor Diodes Division'
+PRP Manufacturer_Part_Number 'SK34'
+PRP Package_Case 'DO-214AC, SMA'
+PRP Part_Type 'Discrete Semiconductors'
+PRP Recommended_Rating 'Silver'
+PRP Speed 'Fast Recovery =< 500ns, > 200mA (Io)'
+PRP Voltage__DC_Reverse '40V'
+PRP Voltage__Forward '550mV @ 3A'
+TOP 0 6.685 3.3622913 270 N 17 70 D4_MOSFET_HighPower1-1
+TOP 1 6.685 3.5237087 270 N 78 7 D4_MOSFET_HighPower1-2
+#
+# CMP 39
+CMP 3 8.0705906 2.43764 180 N C22 100n ;0=1,1=0.0000
+PRP Capacitance '100n'
+TOP 0 8.0705906 2.4081124 0 N 84 39 C22-1
+TOP 1 8.0705906 2.4671676 0 N 19 8 C22-2
+#
+# CMP 40
+CMP 3 8.1955906 2.21764 90 N C21 100n ;0=1,1=0.0000
+PRP Capacitance '100n'
+TOP 0 8.166063 2.21764 90 N 84 38 C21-1
+TOP 1 8.2251182 2.21764 90 N 19 7 C21-2
+#
+# CMP 41
+CMP 3 8.1955906 2.27764 90 N C20 100n ;0=1,1=0.0000
+PRP Capacitance '100n'
+TOP 0 8.166063 2.27764 90 N 84 37 C20-1
+TOP 1 8.2251182 2.27764 90 N 19 6 C20-2
+#
+# CMP 42
+CMP 3 7.9725906 2.21164 0 N C19 100n ;0=1,1=0.0000
+PRP Capacitance '100n'
+TOP 0 7.9725906 2.2411676 180 N 84 36 C19-1
+TOP 1 7.9725906 2.1821124 180 N 19 5 C19-2
+#
+# CMP 43
+CMP 3 9.1153701 1.0991417 0 N C15 100n ;0=1,1=0.0000
+PRP Capacitance '100n'
+TOP 0 9.1153701 1.1286693 180 N 84 35 C15-1
+TOP 1 9.1153701 1.0696141 180 N 19 4 C15-2
+#
+# CMP 44
+CMP 3 8.8053701 1.1881968 0 N C14 100n ;0=1,1=0.0000
+PRP Capacitance '100n'
+TOP 0 8.8053701 1.2177244 180 N 84 34 C14-1
+TOP 1 8.8053701 1.1586692 180 N 19 3 C14-2
+#
+# CMP 45
+CMP 22 8.595 1.515 270 N C10 10uF ;0=1,1=0.0000
+PRP Value '10uF'
+TOP 0 8.6530471 1.5151168 270 N 19 2 C10-1
+TOP 1 8.5349369 1.5151168 270 N 84 33 C10-2
+#
+# CMP 46
+CMP 3 8.615 1.89 90 N C9 100n ;0=1,1=0.0000
+PRP Capacitance '100n'
+TOP 0 8.5854724 1.89 90 N 84 32 C9-1
+TOP 1 8.6445276 1.89 90 N 18 3 C9-2
+#
+# CMP 47
+CMP 3 8.9708583 1.6303701 180 N C8 100n ;0=1,1=0.0000
+PRP Capacitance '100n'
+TOP 0 8.9708583 1.6008425 0 N 84 31 C8-1
+TOP 1 8.9708583 1.6598977 0 N 98 0 C8-2
+#
+# CMP 48
+CMP 4 8.85 3.122 180 N C2 100nF ;0=1,1=0.0000
+PRP Capacitance '100nF'
+TOP 0 8.85 3.0865668 0 N 81 2 C2-1
+TOP 1 8.85 3.157433 0 N 17 69 C2-2
+#

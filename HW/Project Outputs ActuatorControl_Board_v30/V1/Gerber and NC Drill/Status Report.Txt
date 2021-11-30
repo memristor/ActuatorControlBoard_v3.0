@@ -1,0 +1,12 @@
+Output: NC Drill Files
+Type  : NC Drill
+From  : PCB Document [ActuatorControl_Board_v30.PcbDoc]
+   Generated File[ActuatorControl_Board_v30.TXT]
+   Generated File[ActuatorControl_Board_v30.LDP]
+   Generated File[ActuatorControl_Board_v30.DRR]
+
+
+Files Generated   : 3
+Documents Printed : 0
+
+Finished Output Generation At 22:46:20 On 5.5.2020

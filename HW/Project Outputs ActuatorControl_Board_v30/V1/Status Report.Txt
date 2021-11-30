@@ -1,0 +1,10 @@
+Output: Export STEP
+Type  : ExportSTEP
+From  : PCB Document [ActuatorControl_Board_v30.PcbDoc]
+   Generated File[ActuatorControl_Board_v30.step]
+
+
+Files Generated   : 1
+Documents Printed : 0
+
+Finished Output Generation At 22:47:08 On 5.5.2020
