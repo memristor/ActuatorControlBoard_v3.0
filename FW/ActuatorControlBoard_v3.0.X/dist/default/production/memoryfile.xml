@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<project>                                  
+  <executable name="dist/default/production/ActuatorControlBoard_v3.0.X.production.elf">                 
+    <memory name="program">                 
+      <units>bytes</units>                 
+      <length>1049728</length>                 
+      <used>11696</used>                     
+      <free>1038032</free>                     
+    </memory>                              
+    <memory name="data">              
+      <units>bytes</units>                 
+      <length>262144</length>                 
+      <used>660</used>                     
+      <free>261484</free>                     
+    </memory>                              
+  </executable>                            
+</project>                                 
