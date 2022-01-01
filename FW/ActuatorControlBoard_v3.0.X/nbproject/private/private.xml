@@ -5,11 +5,9 @@
         <group>
             <file>file:/C:/Users/EliteBook/HarmonyProjects/ActuatorControlBoard_v3.0/firmware/src/ax12.h</file>
             <file>file:/C:/Users/EliteBook/HarmonyProjects/ActuatorControlBoard_v3.0/firmware/src/config/default/peripheral/uart/plib_uart3.c</file>
-            <file>file:/C:/Users/EliteBook/HarmonyProjects/ActuatorControlBoard_v3.0/firmware/src/config/default/interrupts.c</file>
             <file>file:/C:/Users/EliteBook/HarmonyProjects/ActuatorControlBoard_v3.0/firmware/src/main.c</file>
             <file>file:/C:/Users/EliteBook/HarmonyProjects/ActuatorControlBoard_v3.0/firmware/src/ax12.c</file>
-            <file>file:/C:/Users/EliteBook/HarmonyProjects/ActuatorControlBoard_v3.0/firmware/src/config/default/peripheral/evic/plib_evic.c</file>
-            <file>file:/C:/Users/EliteBook/HarmonyProjects/ActuatorControlBoard_v3.0/firmware/src/config/default/definitions.h</file>
+            <file>file:/C:/Users/EliteBook/HarmonyProjects/ActuatorControlBoard_v3.0/firmware/src/config/default/peripheral/can/plib_can4.c</file>
             <file>file:/C:/Users/EliteBook/HarmonyProjects/ActuatorControlBoard_v3.0/firmware/src/config/default/initialization.c</file>
         </group>
     </open-files>

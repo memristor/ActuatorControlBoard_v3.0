@@ -19,8 +19,9 @@
 #include "peripheral/uart/plib_uart3.h"
 #include "device.h"
 
+#define AX12_TIMEOUT 15//ms
 //#define AX12_MESSAGE_DEBUG
-
+//#define AX12_INITSPEED_DEBUG
 
 void AX12_Initialize()
 {
@@ -54,7 +55,7 @@ int AX12_SpeedInit(uint16_t speed)
     txpacket[8] = ~ (checksum % 256);
     
     UART3_Write(txpacket, 9);
-    //while(UART3_WriteIsBusy());
+
     
 #ifdef AX12_INITSPEED_DEBUG
     UART6_Write(txpacket, 9);
@@ -77,7 +78,6 @@ int AX12_OnMessage(can_t AX12_CanMsg)
     
     if(AX12_CanMsg.ID != AX12_CANID)
         return -1;
-    
 
     txpacket[0] = 0xff;
     txpacket[1] = 0xff;
@@ -93,13 +93,13 @@ int AX12_OnMessage(can_t AX12_CanMsg)
     // Send packet to AX //
     UART3_Read(rxpacket, 256);  // RX Buffer clear
     UART3_Write(txpacket, AX12_CanMsg.length+3);
-    
+
     // Delay - Wait for response //
-    for(int i = 0; i < 1000000; i++);
+    CORETIMER_DelayMs(AX12_TIMEOUT);
     
     // Ignore garbage - Transmitted message //
     UART3_Read(rxpacket, AX12_CanMsg.length+3);
-    
+
     rxmsg_length = UART3_ReadCountGet();
     if(rxmsg_length > (size_t)0)
     {
@@ -116,12 +116,12 @@ int AX12_OnMessage(can_t AX12_CanMsg)
         rxlength = rxpacket[3] + 2 - 1;
 
 #ifdef AX12_MESSAGE_DEBUG
-        UART6_Write(rxpacket, rxlength);
+        UART6_Write(rxpacket, rxlength+2);
         while(UART6_WriteIsBusy());
 #endif
 
         while(CAN4_MessageTransmit(AX12_CANID, rxlength, (uint8_t*)(rxpacket+2), 0, CAN_MSG_TX_DATA_FRAME) == false);
     }
-    
+
     return 0;
 }

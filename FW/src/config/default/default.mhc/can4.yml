@@ -19,12 +19,136 @@ children:
       - type: Dynamic
         attributes: {id: can4, value: '500'}
   - type: Integer
+    attributes: {id: CAN4_FIFO1_SIZE}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '32'}
+  - type: Boolean
+    attributes: {id: CAN4_FILTER0_ENABLE}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: 'true'}
+  - type: Hex
+    attributes: {id: CAN4_FILTER0_ID}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '27648'}
+  - type: Integer
+    attributes: {id: CAN4_FILTER0_ID_DECIMAL}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: can4, value: '27648'}
+  - type: Menu
+    attributes: {id: CAN4_FILTER1}
+    children:
+    - type: Attributes
+      children:
+      - type: Boolean
+        attributes: {id: enabled}
+        children:
+        - {type: Value, value: 'true'}
+      - type: Boolean
+        attributes: {id: visible}
+        children:
+        - {type: Value, value: 'true'}
+  - type: Boolean
+    attributes: {id: CAN4_FILTER1_ENABLE}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: 'true'}
+  - type: Hex
+    attributes: {id: CAN4_FILTER1_ID}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '27664'}
+  - type: Integer
+    attributes: {id: CAN4_FILTER1_ID_DECIMAL}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: can4, value: '27664'}
+  - type: KeyValueSet
+    attributes: {id: CAN4_FILTER1_MASK_SELECT}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '1'}
+  - type: Hex
+    attributes: {id: CAN4_MASK0_ID}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '536870911'}
+  - type: Integer
+    attributes: {id: CAN4_MASK0_ID_DECIMAL}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: can4, value: '536870911'}
+  - type: Menu
+    attributes: {id: CAN4_MASK1}
+    children:
+    - type: Attributes
+      children:
+      - type: Boolean
+        attributes: {id: enabled}
+        children:
+        - {type: Value, value: 'true'}
+      - type: Boolean
+        attributes: {id: visible}
+        children:
+        - {type: Value, value: 'true'}
+  - type: Hex
+    attributes: {id: CAN4_MASK1_ID}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '536870904'}
+  - type: Integer
+    attributes: {id: CAN4_MASK1_ID_DECIMAL}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: can4, value: '536870904'}
+  - type: Integer
     attributes: {id: CAN_CORE_CLOCK_FREQ}
     children:
     - type: Values
       children:
       - type: Dynamic
         attributes: {id: can4, value: '60000000'}
+  - type: Integer
+    attributes: {id: NUMBER_OF_ACCEPTANCE_FILTER_MASK}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '2'}
+  - type: Integer
+    attributes: {id: NUMBER_OF_FILTER}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '2'}
   - type: Integer
     attributes: {id: PHASE1}
     children:

@@ -187,6 +187,7 @@ void SYS_Initialize ( void* data )
 
 	UART3_Initialize();
 
+    CORETIMER_Initialize();
     CAN4_Initialize();
 
 	UART6_Initialize();

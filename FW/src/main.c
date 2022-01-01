@@ -53,7 +53,7 @@ int main ( void )
     
     
     AX12_SpeedInit(100);
-
+    
     
     while ( true )
     {            
@@ -62,9 +62,9 @@ int main ( void )
         for(int i = 0; i < 8; i++)
             msg.data[i] = 0;
         
-        if( CAN4_MessageReceive(&msg.ID, &msg.length, msg.data, 0, 1, &msg.msgAttr) ) ;
-        
+        while( !CAN4_MessageReceive(&msg.ID, &msg.length, msg.data, 0, 1, &msg.msgAttr) ) ;
 
+        
         if ( AX12_OnMessage(msg) == 0) continue;
 
         if ( VacuumPump_OnMessage(msg) == 0) continue;

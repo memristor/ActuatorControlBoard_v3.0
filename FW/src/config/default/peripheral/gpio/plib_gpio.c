@@ -58,6 +58,7 @@
 void GPIO_Initialize ( void )
 {
     /* PORTA Initialization */
+    ODCASET = 0x10; /* Open Drain Enable */
     LATA = 0x0; /* Initial Latch Value */
     TRISACLR = 0x1801; /* Direction Control */
     ANSELACLR = 0x1911; /* Digital Mode Enable */
