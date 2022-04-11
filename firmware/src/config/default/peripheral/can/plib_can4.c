@@ -140,7 +140,8 @@ void CAN4_Initialize(void)
 
     /* Switch the CAN module to CAN_OPERATION_MODE. Wait until the switch is complete */
     C4CON = (C4CON & ~_C4CON_REQOP_MASK) | ((CAN_OPERATION_MODE << _C4CON_REQOP_POSITION) & _C4CON_REQOP_MASK);
-    while(((C4CON & _C4CON_OPMOD_MASK) >> _C4CON_OPMOD_POSITION) != CAN_OPERATION_MODE);
+    // OVDE POSTOJI PROBLEM!
+    //while(((C4CON & _C4CON_OPMOD_MASK) >> _C4CON_OPMOD_POSITION) != CAN_OPERATION_MODE);
 }
 
 // *****************************************************************************

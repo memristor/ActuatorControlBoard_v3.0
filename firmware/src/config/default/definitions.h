@@ -50,7 +50,7 @@
 #include <stdbool.h>
 #include "peripheral/coretimer/plib_coretimer.h"
 #include "peripheral/uart/plib_uart3.h"
-#include "peripheral/can/plib_can4.h"
+#include "peripheral/canfd/plib_canfd4.h"
 #include "peripheral/clk/plib_clk.h"
 #include "peripheral/gpio/plib_gpio.h"
 #include "peripheral/evic/plib_evic.h"
@@ -59,7 +59,7 @@
 #include "pumps.h"
 //#include "ax12.h"
 
-
+#define LYNXMOTION_CANID 0x00006C20
 #define VACUUM_PUMP_CANID 0x00006C10
 #define AX12_CANID 0x00006C00
 

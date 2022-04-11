@@ -14,6 +14,11 @@
     Describe the purpose of this file.
  */
 /* ************************************************************************** */
+#ifndef CAN_H_
+#define CAN_H_
+
+#include <stdint.h>
+#include "config/default/peripheral/can/plib_can_common.h"
 
 typedef struct _canMsg{
     uint32_t ID;
@@ -21,3 +26,5 @@ typedef struct _canMsg{
     uint8_t data[8];
     CAN_MSG_RX_ATTRIBUTE msgAttr;
 } can_t;
+
+#endif

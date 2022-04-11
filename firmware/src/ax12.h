@@ -15,6 +15,9 @@
  */
 /* ************************************************************************** */
 
+#ifndef AX12_H_
+#define AX12_H_
+
 #include "can.h"
 
 typedef enum _servoSelect{
@@ -28,3 +31,5 @@ void AX12_Initialize();
 int AX12_SpeedInit(uint16_t speed);
 
 int AX12_OnMessage(can_t AX12_CanMsg);
+
+#endif

@@ -63,9 +63,9 @@
 #pragma config FSLEEP =     OFF
 #pragma config DBGPER =     PG_ALL
 #pragma config SMCLR =      MCLR_NORM
-#pragma config SOSCGAIN =   GAIN_2X
+#pragma config SOSCGAIN =   G3
 #pragma config SOSCBOOST =  ON
-#pragma config POSCGAIN =   GAIN_LEVEL_3
+#pragma config POSCGAIN =   G3
 #pragma config POSCBOOST =  ON
 #pragma config EJTAGBEN =   NORMAL
 
@@ -74,7 +74,7 @@
 #pragma config DMTINTV =    WIN_127_128
 #pragma config FSOSCEN =    OFF
 #pragma config IESO =       ON
-#pragma config POSCMOD =    OFF
+#pragma config POSCMOD =    HS
 #pragma config OSCIOFNC =   OFF
 #pragma config FCKSM =      CSECME
 #pragma config WDTPS =      PS1048576
@@ -87,16 +87,10 @@
 
 /*** DEVCFG2 ***/
 #pragma config FPLLIDIV =   DIV_1
-#pragma config FPLLRNG =    RANGE_5_10_MHZ
-#pragma config FPLLICLK =   PLL_FRC
-#pragma config FPLLMULT =   MUL_60
+#pragma config FPLLRNG =    RANGE_8_16_MHZ
+#pragma config FPLLICLK =   PLL_POSC
+#pragma config FPLLMULT =   MUL_30
 #pragma config FPLLODIV =   DIV_4
-#pragma config VBATBOREN =  ON
-#pragma config DSBOREN =    ON
-#pragma config DSWDTPS =    DSPS32
-#pragma config DSWDTOSC =   LPRC
-#pragma config DSWDTEN =    OFF
-#pragma config FDSEN =      ON
 #pragma config BORSEL =     HIGH
 #pragma config UPLLEN =     OFF
 
@@ -178,8 +172,8 @@ void SYS_Initialize ( void* data )
     __builtin_mtc0(16, 0,(__builtin_mfc0(16, 0) | 0x3));
 
     /* Configure Wait States and Prefetch */
-    CHECONbits.PFMWS = 3;
-    CHECONbits.PREFEN = 0;
+    CHECONbits.PFMWS = 2;
+    CHECONbits.PREFEN = 1;
 
 
 
@@ -192,7 +186,7 @@ void SYS_Initialize ( void* data )
 
 	UART6_Initialize();
 
-    AX12_Initialize();
+
 
 
 
@@ -201,7 +195,7 @@ void SYS_Initialize ( void* data )
 	/* Enable global interrupts */
     __builtin_enable_interrupts();
 
-    
+
 }
 
 

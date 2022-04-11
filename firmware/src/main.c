@@ -35,15 +35,15 @@
 
 int main ( void )
 {
-    can_t msg;
+    /*can_t msg;
     
     msg.length = 0;
-
+*/
   
     /* Initialize all modules */
     SYS_Initialize ( NULL );
 
-    
+    /*
     VacuumPump_Add(PUMP_1, SWITCH_1, 1);
     VacuumPump_Add(PUMP_2, SWITCH_2, 2);
     VacuumPump_Add(PUMP_3, SWITCH_3, 3);
@@ -53,11 +53,11 @@ int main ( void )
     
     
     AX12_SpeedInit(100);
-    
+    */
     
     while ( true )
     {            
-        msg.ID = 0;
+        /*msg.ID = 0;
         msg.length = 0;
         for(int i = 0; i < 8; i++)
             msg.data[i] = 0;
@@ -68,7 +68,11 @@ int main ( void )
         if ( AX12_OnMessage(msg) == 0) continue;
 
         if ( VacuumPump_OnMessage(msg) == 0) continue;
-
+*/
+        UART6_Write((uint8_t*)"#0D-3600\r", 9);
+        CORETIMER_DelayMs(10000);
+        UART6_Write((uint8_t*)"#0D3600\r", 8);
+        CORETIMER_DelayMs(10000);
     }
 
     /* Execution should not come here during normal operation */

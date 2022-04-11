@@ -689,9 +689,6 @@ void UART3_FAULT_InterruptHandler (void)
 
 void UART3_RX_InterruptHandler (void)
 {
-    /* Clear UART3 RX Interrupt flag */
-    IFS1CLR = _IFS1_U3RXIF_MASK;
-
     /* Keep reading until there is a character availabe in the RX FIFO */
     while((U3STA & _U3STA_URXDA_MASK) == _U3STA_URXDA_MASK)
     {
@@ -704,6 +701,9 @@ void UART3_RX_InterruptHandler (void)
             /* UART RX buffer is full */
         }
     }
+
+    /* Clear UART3 RX Interrupt flag */
+    IFS1CLR = _IFS1_U3RXIF_MASK;
 }
 
 void UART3_TX_InterruptHandler (void)
@@ -713,9 +713,6 @@ void UART3_TX_InterruptHandler (void)
     /* Check if any data is pending for transmission */
     if (UART3_WritePendingBytesGet() > 0)
     {
-        /* Clear UART3TX Interrupt flag */
-        IFS2CLR = _IFS2_U3TXIF_MASK;
-
         /* Keep writing to the TX FIFO as long as there is space */
         while(!(U3STA & _U3STA_UTXBF_MASK))
         {
@@ -740,6 +737,10 @@ void UART3_TX_InterruptHandler (void)
                 break;
             }
         }
+
+        /* Clear UART3TX Interrupt flag */
+        IFS2CLR = _IFS2_U3TXIF_MASK;
+
     }
     else
     {
