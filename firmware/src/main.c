@@ -42,6 +42,7 @@ int main ( void )
     /* Initialize all modules */
     SYS_Initialize ( NULL );
 
+    CORETIMER_Start();
     
     VacuumPump_Add(PUMP_1, SWITCH_1, 1);
     VacuumPump_Add(PUMP_2, SWITCH_2, 2);
@@ -61,10 +62,8 @@ int main ( void )
         for(int i = 0; i < 8; i++)
             msg.data[i] = 0;
         
-        while( !CAN4_MessageReceive(&msg.ID, &msg.length, msg.data, 0, 1, &msg.msgAttr) ) ;
+        while( !CAN4_MessageReceive(&msg.ID, &msg.length, msg.data, 0, 2, &msg.msgAttr) ) ;
 
-        
-        UART6_Write((uint8_t *)&msg.ID, 1);
         
         if ( AX12_OnMessage(msg) == 0) 
             continue;
@@ -75,8 +74,6 @@ int main ( void )
         if ( lynxmotion_OnMessage(msg) == 0) 
             continue;
 
-
-        
     }
 
     /* Execution should not come here during normal operation */

@@ -44,4 +44,4 @@ children:
       - type: Dynamic
         attributes: {id: core_timer, value: '0xea60'}
 - type: ElementPosition
-  attributes: {x: '165', y: '160', id: core_timer}
+  attributes: {x: '171', y: '169', id: core_timer}

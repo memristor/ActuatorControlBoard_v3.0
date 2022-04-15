@@ -5,7 +5,7 @@ frameworkPath: ../../Harmony3
 processor: PIC32MK1024MCM064
 projectName: ActuatorControlBoard_v3.0
 settings:
-  PackageFilter: quick_docs;dev_packs;harmony-services;csp
+  PackageFilter: csp;core;mc_apps_pic32mk;dev_packs;harmony-services;core_apps_pic32mk;quick_docs;x2c;bsp;motor_control;csp_apps_pic32mk
   FORCE_OPTIMIZATION: 'false'
   GENERATE_BACKUP: 'true'
   TRUSTZONE: 'false'

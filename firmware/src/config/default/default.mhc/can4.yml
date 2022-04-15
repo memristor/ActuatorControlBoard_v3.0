@@ -4,13 +4,6 @@ attributes: {id: can4}
 children:
 - type: Symbols
   children:
-  - type: Boolean
-    attributes: {id: AUTO_NOMINAL_BIT_TIMING_CALCULATION}
-    children:
-    - type: Values
-      children:
-      - type: User
-        attributes: {value: 'true'}
   - type: Integer
     attributes: {id: CALCULATED_DATA_BITRATE}
     children:
@@ -39,6 +32,13 @@ children:
       children:
       - type: Dynamic
         attributes: {id: can4, value: '0.000'}
+  - type: KeyValueSet
+    attributes: {id: CAN4_FIFO1_PAYLOAD_SIZE}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '7'}
   - type: Integer
     attributes: {id: CAN4_FIFO1_SIZE}
     children:
@@ -46,6 +46,27 @@ children:
       children:
       - type: User
         attributes: {value: '32'}
+  - type: KeyValueSet
+    attributes: {id: CAN4_FIFO2_PAYLOAD_SIZE}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '7'}
+  - type: Integer
+    attributes: {id: CAN4_FIFO2_SIZE}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '32'}
+  - type: Boolean
+    attributes: {id: CAN4_FILTER0_ENABLE}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: 'true'}
   - type: Hex
     attributes: {id: CAN4_FILTER0_ID}
     children:
@@ -136,31 +157,6 @@ children:
       - type: Dynamic
         attributes: {id: can4, value: '120000000'}
   - type: KeyValueSet
-    attributes: {id: CAN_CORE_SELECT_CLOCK_SOURCE}
-    children:
-    - type: Values
-      children:
-      - type: User
-        attributes: {value: '0'}
-  - type: Comment
-    attributes: {id: CAN_DATA_ERRORRATE_COMMENT}
-    children:
-    - type: Attributes
-      children:
-      - type: String
-        attributes: {id: text}
-        children:
-        - {type: Value, value: Warning!!! Error -100.000%}
-  - type: Comment
-    attributes: {id: CAN_NOMINAL_ERRORRATE_COMMENT}
-    children:
-    - type: Attributes
-      children:
-      - type: String
-        attributes: {id: text}
-        children:
-        - {type: Value, value: Warning!!! Error -100.000%}
-  - type: KeyValueSet
     attributes: {id: CAN_OPMODE}
     children:
     - type: Values
@@ -233,66 +229,40 @@ children:
       - type: Dynamic
         attributes: {id: can4, value: '0x4'}
   - type: Integer
-    attributes: {id: NBT_BRP}
-    children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: readOnly}
-        children:
-        - {type: Value, value: 'true'}
-    - type: Values
-      children:
-      - type: Dynamic
-        attributes: {id: can4, value: '0'}
-  - type: Integer
     attributes: {id: NBT_SJW}
     children:
     - type: Values
       children:
       - type: Dynamic
-        attributes: {id: can4, value: '1'}
+        attributes: {id: can4, value: '4'}
   - type: Integer
     attributes: {id: NBT_TOTAL_TIME_QUANTA}
     children:
     - type: Values
       children:
       - type: Dynamic
-        attributes: {id: can4, value: '240'}
+        attributes: {id: can4, value: '16'}
   - type: Integer
     attributes: {id: NBT_TSEG1}
     children:
     - type: Values
       children:
       - type: Dynamic
-        attributes: {id: can4, value: '238'}
+        attributes: {id: can4, value: '11'}
   - type: Integer
     attributes: {id: NBT_TSEG2}
     children:
     - type: Values
       children:
       - type: Dynamic
-        attributes: {id: can4, value: '1'}
-  - type: Float
-    attributes: {id: NOMINAL_SAMPLE_POINT}
-    children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: readOnly}
-        children:
-        - {type: Value, value: 'true'}
-    - type: Values
-      children:
-      - type: Dynamic
-        attributes: {id: can4, value: '99.583336'}
+        attributes: {id: can4, value: '4'}
   - type: String
     attributes: {id: NOMINAL_TIME_QUANTA_PERIOD}
     children:
     - type: Values
       children:
       - type: Dynamic
-        attributes: {id: can4, value: '8.333'}
+        attributes: {id: can4, value: '125.000'}
   - type: Integer
     attributes: {id: NUMBER_OF_FILTER}
     children:
@@ -301,4 +271,4 @@ children:
       - type: User
         attributes: {value: '3'}
 - type: ElementPosition
-  attributes: {x: '34', y: '78', id: can4}
+  attributes: {x: '41', y: '87', id: can4}
