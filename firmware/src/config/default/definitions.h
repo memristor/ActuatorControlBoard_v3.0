@@ -57,7 +57,8 @@
 #include "peripheral/uart/plib_uart6.h"
 
 #include "pumps.h"
-//#include "ax12.h"
+#include "ax12.h"
+#include "lynxmotion.h"
 
 #define LYNXMOTION_CANID 0x00006C20
 #define VACUUM_PUMP_CANID 0x00006C10

@@ -26,7 +26,6 @@
 #include <stdbool.h>                    // Defines true
 #include <stdlib.h>                     // Defines EXIT_FAILURE
 #include "definitions.h"                // SYS function prototypes
-
 // *****************************************************************************
 // *****************************************************************************
 // Section: Main Entry Point
@@ -35,15 +34,15 @@
 
 int main ( void )
 {
-    /*can_t msg;
+    can_t msg;
     
     msg.length = 0;
-*/
+
   
     /* Initialize all modules */
     SYS_Initialize ( NULL );
 
-    /*
+    
     VacuumPump_Add(PUMP_1, SWITCH_1, 1);
     VacuumPump_Add(PUMP_2, SWITCH_2, 2);
     VacuumPump_Add(PUMP_3, SWITCH_3, 3);
@@ -53,26 +52,31 @@ int main ( void )
     
     
     AX12_SpeedInit(100);
-    */
+    
     
     while ( true )
     {            
-        /*msg.ID = 0;
+        msg.ID = 0;
         msg.length = 0;
         for(int i = 0; i < 8; i++)
             msg.data[i] = 0;
         
         while( !CAN4_MessageReceive(&msg.ID, &msg.length, msg.data, 0, 1, &msg.msgAttr) ) ;
-        //UART6_Write(&msg.ID, 2);
-        
-        if ( AX12_OnMessage(msg) == 0) continue;
 
-        if ( VacuumPump_OnMessage(msg) == 0) continue;
-*/
-        UART6_Write((uint8_t*)"#0D-3600\r", 9);
-        CORETIMER_DelayMs(10000);
-        UART6_Write((uint8_t*)"#0D3600\r", 8);
-        CORETIMER_DelayMs(10000);
+        
+        UART6_Write((uint8_t *)&msg.ID, 1);
+        
+        if ( AX12_OnMessage(msg) == 0) 
+            continue;
+
+        if ( VacuumPump_OnMessage(msg) == 0) 
+            continue;
+        
+        if ( lynxmotion_OnMessage(msg) == 0) 
+            continue;
+
+
+        
     }
 
     /* Execution should not come here during normal operation */

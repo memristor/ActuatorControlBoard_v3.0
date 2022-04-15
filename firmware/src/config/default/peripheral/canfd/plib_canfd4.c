@@ -65,8 +65,8 @@
 #define CANFD_FIFO_MESSAGE_BUFFER_MAX 32
 
 #define CANFD_CONFIGURATION_MODE      0x4
-#define CANFD_OPERATION_MODE          0x0
-#define CANFD_NUM_OF_FILTER           2
+#define CANFD_OPERATION_MODE          0x6
+#define CANFD_NUM_OF_FILTER           3
 /* FIFO Offset in word (4 bytes) */
 #define CANFD_FIFO_OFFSET             0xc
 /* Filter Offset in word (4 bytes) */
@@ -92,44 +92,6 @@
 static uint8_t __attribute__((coherent, aligned(16))) can_message_buffer[CANFD_MESSAGE_RAM_CONFIG_SIZE];
 static const uint8_t dlcToLength[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 12, 16, 20, 24, 32, 48, 64};
 
-/******************************************************************************
-Local Functions
-******************************************************************************/
-static void CANLengthToDlcGet(uint8_t length, uint8_t *dlc)
-{
-    if (length <= 8)
-    {
-        *dlc = length;
-    }
-    else if (length <= 12)
-    {
-        *dlc = 0x9;
-    }
-    else if (length <= 16)
-    {
-        *dlc = 0xA;
-    }
-    else if (length <= 20)
-    {
-        *dlc = 0xB;
-    }
-    else if (length <= 24)
-    {
-        *dlc = 0xC;
-    }
-    else if (length <= 32)
-    {
-        *dlc = 0xD;
-    }
-    else if (length <= 48)
-    {
-        *dlc = 0xE;
-    }
-    else
-    {
-        *dlc = 0xF;
-    }
-}
 
 // *****************************************************************************
 // *****************************************************************************
@@ -161,17 +123,11 @@ void CAN4_Initialize(void)
     CFD4CON = (CFD4CON & ~_CFD4CON_REQOP_MASK) | ((CANFD_CONFIGURATION_MODE << _CFD4CON_REQOP_POSITION) & _CFD4CON_REQOP_MASK);
     while(((CFD4CON & _CFD4CON_OPMOD_MASK) >> _CFD4CON_OPMOD_POSITION) != CANFD_CONFIGURATION_MODE);
 
-    /* Set the Data bitrate to 500 Kbps */
-    CFD4DBTCFG = ((14 << _CFD4DBTCFG_BRP_POSITION) & _CFD4DBTCFG_BRP_MASK)
-               | ((10 << _CFD4DBTCFG_TSEG1_POSITION) & _CFD4DBTCFG_TSEG1_MASK)
-               | ((3 << _CFD4DBTCFG_TSEG2_POSITION) & _CFD4DBTCFG_TSEG2_MASK)
-               | ((3 << _CFD4DBTCFG_SJW_POSITION) & _CFD4DBTCFG_SJW_MASK);
-
     /* Set the Nominal bitrate to 500 Kbps */
-    CFD4NBTCFG = ((14 << _CFD4NBTCFG_BRP_POSITION) & _CFD4NBTCFG_BRP_MASK)
-               | ((10 << _CFD4NBTCFG_TSEG1_POSITION) & _CFD4NBTCFG_TSEG1_MASK)
-               | ((3 << _CFD4NBTCFG_TSEG2_POSITION) & _CFD4NBTCFG_TSEG2_MASK)
-               | ((3 << _CFD4NBTCFG_SJW_POSITION) & _CFD4NBTCFG_SJW_MASK);
+    CFD4NBTCFG = ((0 << _CFD4NBTCFG_BRP_POSITION) & _CFD4NBTCFG_BRP_MASK)
+               | ((237 << _CFD4NBTCFG_TSEG1_POSITION) & _CFD4NBTCFG_TSEG1_MASK)
+               | ((0 << _CFD4NBTCFG_TSEG2_POSITION) & _CFD4NBTCFG_TSEG2_MASK)
+               | ((0 << _CFD4NBTCFG_SJW_POSITION) & _CFD4NBTCFG_SJW_MASK);
 
     /* Set Message memory base address for all FIFOs/Queue */
     CFD4FIFOBA = (uint32_t)KVA_TO_PA(can_message_buffer);
@@ -200,10 +156,14 @@ void CAN4_Initialize(void)
     CFD4FLTOBJ1 = ((((27664 & CANFD_MSG_FLT_EXT_SID_MASK) >> 18) | ((27664 & CANFD_MSG_FLT_EXT_EID_MASK) << 11)) & CANFD_MSG_EID_MASK) | _CFD4FLTOBJ1_EXIDE_MASK;
     CFD4MASK1 = (0 & CANFD_MSG_SID_MASK);
     CFD4FLTCON0 |= (((0x2 << _CFD4FLTCON0_F1BP_POSITION) & _CFD4FLTCON0_F1BP_MASK)| _CFD4FLTCON0_FLTEN1_MASK);
+    /* Filter 2 configuration */
+    CFD4FLTOBJ2 = ((((27680 & CANFD_MSG_FLT_EXT_SID_MASK) >> 18) | ((27680 & CANFD_MSG_FLT_EXT_EID_MASK) << 11)) & CANFD_MSG_EID_MASK) | _CFD4FLTOBJ2_EXIDE_MASK;
+    CFD4MASK2 = (0 & CANFD_MSG_SID_MASK);
+    CFD4FLTCON0 |= (((0x2 << _CFD4FLTCON0_F2BP_POSITION) & _CFD4FLTCON0_F2BP_MASK)| _CFD4FLTCON0_FLTEN2_MASK);
 
     /* Switch the CAN module to CANFD_OPERATION_MODE. Wait until the switch is complete */
     CFD4CON = (CFD4CON & ~_CFD4CON_REQOP_MASK) | ((CANFD_OPERATION_MODE << _CFD4CON_REQOP_POSITION) & _CFD4CON_REQOP_MASK);
-    //while(((CFD4CON & _CFD4CON_OPMOD_MASK) >> _CFD4CON_OPMOD_POSITION) != CANFD_OPERATION_MODE);
+    while(((CFD4CON & _CFD4CON_OPMOD_MASK) >> _CFD4CON_OPMOD_POSITION) != CANFD_OPERATION_MODE);
 }
 
 // *****************************************************************************
@@ -234,7 +194,6 @@ bool CAN4_MessageTransmit(uint32_t id, uint8_t length, uint8_t* data, uint8_t fi
     CANFD_TX_MSG_OBJECT *txMessage = NULL;
     static uint32_t sequence = 0;
     uint8_t count = 0;
-    uint8_t dlc = 0;
     bool status = false;
 
     if (fifoQueueNum == 0)
@@ -268,21 +227,10 @@ bool CAN4_MessageTransmit(uint32_t id, uint8_t length, uint8_t* data, uint8_t fi
             txMessage->t0 = id;
             txMessage->t1 = 0;
         }
-        if (length > 64)
-            length = 64;
-
-        CANLengthToDlcGet(length, &dlc);
-
-        txMessage->t1 |= (dlc & CANFD_MSG_DLC_MASK);
-
-        if(mode == CANFD_MODE_FD_WITH_BRS)
-        {
-            txMessage->t1 |= CANFD_MSG_FDF_MASK | CANFD_MSG_BRS_MASK;
-        }
-        else if (mode == CANFD_MODE_FD_WITHOUT_BRS)
-        {
-            txMessage->t1 |= CANFD_MSG_FDF_MASK;
-        }
+        /* Limit length */
+        if (length > 8)
+            length = 8;
+        txMessage->t1 |= length;
         if (msgAttr == CANFD_MSG_TX_REMOTE_FRAME)
         {
             txMessage->t1 |= CANFD_MSG_RTR_MASK;

@@ -12,7 +12,8 @@
 #include "definitions.h"
 #include <stdint.h>
 
-#define LYNXMOTION_DELAY 100
+#define LYNXMOTION_TX_DELAY 10
+#define LYNXMOTION_RX_DELAY 50
 
 uint8_t lynxmotion_OnMessage(can_t lynxmotion_CanMsg);
 

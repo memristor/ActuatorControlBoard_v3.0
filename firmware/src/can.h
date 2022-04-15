@@ -18,13 +18,13 @@
 #define CAN_H_
 
 #include <stdint.h>
-#include "config/default/peripheral/can/plib_can_common.h"
+#include "config/default/peripheral/canfd/plib_canfd_common.h"
 
 typedef struct _canMsg{
     uint32_t ID;
     uint8_t length;
     uint8_t data[8];
-    CAN_MSG_RX_ATTRIBUTE msgAttr;
+    CANFD_MSG_RX_ATTRIBUTE msgAttr;
 } can_t;
 
 #endif

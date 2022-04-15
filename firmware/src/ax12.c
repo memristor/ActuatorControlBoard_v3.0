@@ -120,7 +120,7 @@ int AX12_OnMessage(can_t AX12_CanMsg)
         while(UART6_WriteIsBusy());
 #endif
 
-        while(CAN4_MessageTransmit(AX12_CANID, rxlength, (uint8_t*)(rxpacket+2), 0, CANFD_MODE_NORMAL, CAN_MSG_TX_DATA_FRAME) == false);
+        while(CAN4_MessageTransmit(AX12_CANID, rxlength, (uint8_t*)(rxpacket+2), 0, CANFD_MODE_NORMAL, CANFD_MSG_TX_DATA_FRAME) == false);
     }
 
     return 0;
