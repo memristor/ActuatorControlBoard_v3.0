@@ -18,6 +18,7 @@
 #include "definitions.h"
 #include "peripheral/uart/plib_uart3.h"
 #include "device.h"
+#include "ax12.h"
 
 #define AX12_TIMEOUT 15//ms
 //#define AX12_MESSAGE_DEBUG
@@ -116,8 +117,8 @@ int AX12_OnMessage(can_t AX12_CanMsg)
         rxlength = rxpacket[3] + 2 - 1;
 
 #ifdef AX12_MESSAGE_DEBUG
-        UART6_Write(rxpacket, rxlength+2);
-        while(UART6_WriteIsBusy());
+//        UART6_Write(rxpacket, rxlength+2);
+//        while(UART6_WriteIsBusy());
 #endif
 
         while(CAN4_MessageTransmit(AX12_CANID, rxlength, (uint8_t*)(rxpacket+2), 0, CAN_MSG_TX_DATA_FRAME) == false);

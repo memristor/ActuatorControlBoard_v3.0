@@ -63,14 +63,14 @@
 
 #define CAN_CONFIGURATION_MODE      0x4
 #define CAN_OPERATION_MODE          0x0
-#define CAN_NUM_OF_FILTER           2
+#define CAN_NUM_OF_FILTER           3
 /* FIFO Offset in word (4 bytes) */
 #define CAN_FIFO_OFFSET             0x10
 /* Filter Offset in word (4 bytes) */
 #define CAN_FILTER_OFFSET           0x4
 /* Acceptance Mask Offset in word (4 bytes) */
 #define CAN_ACCEPTANCE_MASK_OFFSET  0x4
-#define CAN_MESSAGE_RAM_CONFIG_SIZE 33
+#define CAN_MESSAGE_RAM_CONFIG_SIZE 64
 #define CAN_MSG_IDE_MASK            0x10000000
 #define CAN_MSG_SID_MASK            0x7FF
 #define CAN_MSG_TIMESTAMP_MASK      0xFFFF0000
@@ -123,7 +123,7 @@ void CAN4_Initialize(void)
     C4FIFOBA = (uint32_t)KVA_TO_PA(can_message_buffer);
 
     /* Configure CAN FIFOs */
-    C4FIFOCON0 = (((1 - 1) << _C4FIFOCON0_FSIZE_POSITION) & _C4FIFOCON0_FSIZE_MASK) | _C4FIFOCON0_TXEN_MASK | ((0x0 << _C4FIFOCON0_TXPRI_POSITION) & _C4FIFOCON0_TXPRI_MASK) | ((0x0 << _C4FIFOCON0_RTREN_POSITION) & _C4FIFOCON0_RTREN_MASK);
+    C4FIFOCON0 = (((32 - 1) << _C4FIFOCON0_FSIZE_POSITION) & _C4FIFOCON0_FSIZE_MASK) | _C4FIFOCON0_TXEN_MASK | ((0x0 << _C4FIFOCON0_TXPRI_POSITION) & _C4FIFOCON0_TXPRI_MASK) | ((0x0 << _C4FIFOCON0_RTREN_POSITION) & _C4FIFOCON0_RTREN_MASK);
     C4FIFOCON1 = (((32 - 1) << _C4FIFOCON1_FSIZE_POSITION) & _C4FIFOCON1_FSIZE_MASK);
 
     /* Configure CAN Filters */
@@ -133,6 +133,9 @@ void CAN4_Initialize(void)
     C4RXF1 = (27664 & _C4RXF1_EID_MASK) | (((27664 & 0x1FFC0000u) >> 18u) << _C4RXF1_SID_POSITION) | _C4RXF1_EXID_MASK;
     C4FLTCON0SET = ((0x1 << _C4FLTCON0_FSEL1_POSITION) & _C4FLTCON0_FSEL1_MASK)
                                                          | ((0x1 << _C4FLTCON0_MSEL1_POSITION) & _C4FLTCON0_MSEL1_MASK)| _C4FLTCON0_FLTEN1_MASK;
+    C4RXF2 = (27680 & _C4RXF2_EID_MASK) | (((27680 & 0x1FFC0000u) >> 18u) << _C4RXF2_SID_POSITION) | _C4RXF2_EXID_MASK;
+    C4FLTCON0SET = ((0x1 << _C4FLTCON0_FSEL2_POSITION) & _C4FLTCON0_FSEL2_MASK)
+                                                         | ((0x0 << _C4FLTCON0_MSEL2_POSITION) & _C4FLTCON0_MSEL2_MASK)| _C4FLTCON0_FLTEN2_MASK;
 
     /* Configure CAN Acceptance Filter Masks */
     C4RXM0 = (536870911 & _C4RXM0_EID_MASK) | (((536870911 & 0x1FFC0000u) >> 18u) << _C4RXM0_SID_POSITION) | _C4RXM0_MIDE_MASK;

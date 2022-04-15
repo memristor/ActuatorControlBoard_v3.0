@@ -648,6 +648,20 @@ children:
       children:
       - type: Dynamic
         attributes: {id: core, value: '3'}
+  - type: Combo
+    attributes: {id: CONFIG_FPLLICLK}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: PLL_POSC}
+  - type: Combo
+    attributes: {id: CONFIG_POSCMOD}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: HS}
   - type: Integer
     attributes: {id: CONFIG_SYS_CLK_CONFIG_PRIMARY_XTAL}
     children:

@@ -36,6 +36,7 @@
           <itemPath>../src/pumps.h</itemPath>
           <itemPath>../src/ax12.h</itemPath>
           <itemPath>../src/can.h</itemPath>
+          <itemPath>../src/lynxmotion.h</itemPath>
         </logicalFolder>
       </logicalFolder>
     </logicalFolder>
@@ -82,6 +83,7 @@
           <itemPath>../src/config/default/exceptions.c</itemPath>
           <itemPath>../src/pumps.c</itemPath>
           <itemPath>../src/ax12.c</itemPath>
+          <itemPath>../src/lynxmotion.c</itemPath>
         </logicalFolder>
       </logicalFolder>
       <itemPath>../src/main.c</itemPath>
@@ -473,6 +475,8 @@
         <property key="memories.programmemory.start" value="0x1d000000"/>
         <property key="memories.rww" value="true"/>
         <property key="poweroptions.powerenable" value="true"/>
+        <property key="programmerToGoFilePath"
+                  value="E:/eurobot2022/PIC32MK_ActuatorControlBoard_v3.0/firmware/ActuatorControlBoard_v3.0.X/debug/default/ActuatorControlBoard_v3.0_ptg"/>
         <property key="programmerToGoImageName" value="ActuatorControlBoard_v3.0_ptg"/>
         <property key="programmertogo.imagename" value=""/>
         <property key="programoptions.donoteraseauxmem" value="false"/>
@@ -622,6 +626,8 @@
         <property key="memories.programmemory.ranges" value="1d000000-1d0fffff"/>
         <property key="memories.rww" value="true"/>
         <property key="poweroptions.powerenable" value="true"/>
+        <property key="programmerToGoFilePath"
+                  value="E:/eurobot2022/PIC32MK_ActuatorControlBoard_v3.0/firmware/ActuatorControlBoard_v3.0.X/debug/default/ActuatorControlBoard_v3.0_ptg"/>
         <property key="programmerToGoImageName" value="ActuatorControlBoard_v3.0_ptg"/>
         <property key="programoptions.donoteraseauxmem" value="false"/>
         <property key="programoptions.eraseb4program" value="true"/>

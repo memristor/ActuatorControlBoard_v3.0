@@ -26,6 +26,9 @@
 #include <stdbool.h>                    // Defines true
 #include <stdlib.h>                     // Defines EXIT_FAILURE
 #include "definitions.h"                // SYS function prototypes
+#include "ax12.h"
+#include "pumps.h"
+#include "lynxmotion.h"
 
 // *****************************************************************************
 // *****************************************************************************
@@ -51,6 +54,7 @@ int main ( void )
     VacuumPump_Add(PUMP_5, SWITCH_5, 5);
     VacuumPump_Add(PUMP_6, SWITCH_6, 6);
     
+    AX12_Initialize();
     
     AX12_SpeedInit(100);
     
@@ -68,6 +72,8 @@ int main ( void )
         if ( AX12_OnMessage(msg) == 0) continue;
 
         if ( VacuumPump_OnMessage(msg) == 0) continue;
+        
+//        if ( lynxmotion_OnMessage(msg) == 0) continue;
 
     }
 

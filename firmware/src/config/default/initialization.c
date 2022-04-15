@@ -74,7 +74,7 @@
 #pragma config DMTINTV =    WIN_127_128
 #pragma config FSOSCEN =    OFF
 #pragma config IESO =       ON
-#pragma config POSCMOD =    OFF
+#pragma config POSCMOD =    HS
 #pragma config OSCIOFNC =   OFF
 #pragma config FCKSM =      CSECME
 #pragma config WDTPS =      PS1048576
@@ -88,7 +88,7 @@
 /*** DEVCFG2 ***/
 #pragma config FPLLIDIV =   DIV_1
 #pragma config FPLLRNG =    RANGE_5_10_MHZ
-#pragma config FPLLICLK =   PLL_FRC
+#pragma config FPLLICLK =   PLL_POSC
 #pragma config FPLLMULT =   MUL_60
 #pragma config FPLLODIV =   DIV_4
 #pragma config VBATBOREN =  ON
@@ -192,7 +192,7 @@ void SYS_Initialize ( void* data )
 
 	UART6_Initialize();
 
-    AX12_Initialize();
+
 
 
 

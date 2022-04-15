@@ -56,10 +56,10 @@
 #include "peripheral/evic/plib_evic.h"
 #include "peripheral/uart/plib_uart6.h"
 
-#include "pumps.h"
+//#include "pumps.h"
 //#include "ax12.h"
 
-
+#define LYNXMOTION_CANID 0x00006C20
 #define VACUUM_PUMP_CANID 0x00006C10
 #define AX12_CANID 0x00006C00
 

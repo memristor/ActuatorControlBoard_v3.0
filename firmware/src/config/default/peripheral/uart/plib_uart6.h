@@ -69,29 +69,39 @@ void UART6_Initialize( void );
 
 bool UART6_SerialSetup( UART_SERIAL_SETUP *setup, uint32_t srcClkFreq );
 
-bool UART6_Write( void *buffer, const size_t size );
-
-bool UART6_Read( void *buffer, const size_t size );
-
 UART_ERROR UART6_ErrorGet( void );
 
 bool UART6_AutoBaudQuery( void );
 
 void UART6_AutoBaudSet( bool enable );
 
-bool UART6_ReadIsBusy( void );
+size_t UART6_Write(uint8_t* pWrBuffer, const size_t size );
 
-size_t UART6_ReadCountGet( void );
+size_t UART6_WriteCountGet(void);
 
-bool UART6_ReadAbort(void);
+size_t UART6_WriteFreeBufferCountGet(void);
 
-bool UART6_WriteIsBusy( void );
+size_t UART6_WriteBufferSizeGet(void);
 
-size_t UART6_WriteCountGet( void );
+bool UART6_WriteNotificationEnable(bool isEnabled, bool isPersistent);
 
-void UART6_WriteCallbackRegister( UART_CALLBACK callback, uintptr_t context );
+void UART6_WriteThresholdSet(uint32_t nBytesThreshold);
 
-void UART6_ReadCallbackRegister( UART_CALLBACK callback, uintptr_t context );
+void UART6_WriteCallbackRegister( UART_RING_BUFFER_CALLBACK callback, uintptr_t context);
+
+size_t UART6_Read(uint8_t* pRdBuffer, const size_t size);
+
+size_t UART6_ReadCountGet(void);
+
+size_t UART6_ReadFreeBufferCountGet(void);
+
+size_t UART6_ReadBufferSizeGet(void);
+
+bool UART6_ReadNotificationEnable(bool isEnabled, bool isPersistent);
+
+void UART6_ReadThresholdSet(uint32_t nBytesThreshold);
+
+void UART6_ReadCallbackRegister( UART_RING_BUFFER_CALLBACK callback, uintptr_t context);
 
 // DOM-IGNORE-BEGIN
 #ifdef __cplusplus  // Provide C++ Compatibility

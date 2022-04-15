@@ -16,7 +16,7 @@
 /* ************************************************************************** */
 
 #include "definitions.h"
-
+#include "pumps.h"
 
 static VacuumPump instances[VACUUM_PUMP_CONFIG_COUNT_MAX];
 

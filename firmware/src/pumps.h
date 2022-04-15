@@ -14,8 +14,10 @@
     Describe the purpose of this file.
  */
 /* ************************************************************************** */
+#ifndef PUMP_H_
+#define PUMP_H_
 
-#include "ax12.h"
+#include "can.h"
 
 #define VACUUM_PUMP_CONFIG_COUNT_MAX 6
     
@@ -39,3 +41,5 @@ int VacuumPump_OnMessage(can_t Pump_CanMsg);
 void SinglePump_State(uint8_t pumpPin, PinValue value);
 
 void SingleSwitch_State(uint8_t switchPin, PinValue value);
+
+#endif

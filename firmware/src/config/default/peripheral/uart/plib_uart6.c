@@ -47,7 +47,23 @@
 // *****************************************************************************
 // *****************************************************************************
 
-UART_OBJECT uart6Obj;
+UART_RING_BUFFER_OBJECT uart6Obj;
+
+#define UART6_READ_BUFFER_SIZE      128
+#define UART6_READ_BUFFER_SIZE_9BIT (128 >> 1)
+#define UART6_RX_INT_DISABLE()      IEC5CLR = _IEC5_U6RXIE_MASK;
+#define UART6_RX_INT_ENABLE()       IEC5SET = _IEC5_U6RXIE_MASK;
+
+static uint8_t UART6_ReadBuffer[UART6_READ_BUFFER_SIZE];
+
+#define UART6_WRITE_BUFFER_SIZE     128
+#define UART6_WRITE_BUFFER_SIZE_9BIT       (128 >> 1)
+#define UART6_TX_INT_DISABLE()      IEC5CLR = _IEC5_U6TXIE_MASK;
+#define UART6_TX_INT_ENABLE()       IEC5SET = _IEC5_U6TXIE_MASK;
+
+static uint8_t UART6_WriteBuffer[UART6_WRITE_BUFFER_SIZE];
+
+#define UART6_IS_9BIT_MODE_ENABLED()    ( U6MODE & (_U6MODE_PDSEL0_MASK | _U6MODE_PDSEL1_MASK)) == (_U6MODE_PDSEL0_MASK | _U6MODE_PDSEL1_MASK) ? true:false
 
 void static UART6_ErrorClear( void )
 {
@@ -76,6 +92,7 @@ void static UART6_ErrorClear( void )
         /* Clear up the receive interrupt flag so that RX interrupt is not
          * triggered for error bytes */
         IFS5CLR = _IFS5_U6RXIF_MASK;
+
     }
 
     // Ignore the warning
@@ -96,7 +113,6 @@ void UART6_Initialize( void )
     /* RUNOVF = 0 */
     /* CLKSEL = 0 */
     /* SLPEN = 0 */
-    /* UEN = 0 */
     U6MODE = 0x0;
 
     /* Enable UART6 Receiver, Transmitter and TX Interrupt selection */
@@ -105,28 +121,45 @@ void UART6_Initialize( void )
     /* BAUD Rate register Setup */
     U6BRG = 64;
 
-    /* Disable Interrupts */
-    IEC5CLR = _IEC5_U6EIE_MASK;
-
-    IEC5CLR = _IEC5_U6RXIE_MASK;
-
     IEC5CLR = _IEC5_U6TXIE_MASK;
 
     /* Initialize instance object */
-    uart6Obj.rxBuffer = NULL;
-    uart6Obj.rxSize = 0;
-    uart6Obj.rxProcessedSize = 0;
-    uart6Obj.rxBusyStatus = false;
-    uart6Obj.rxCallback = NULL;
-    uart6Obj.txBuffer = NULL;
-    uart6Obj.txSize = 0;
-    uart6Obj.txProcessedSize = 0;
-    uart6Obj.txBusyStatus = false;
-    uart6Obj.txCallback = NULL;
+    uart6Obj.rdCallback = NULL;
+    uart6Obj.rdInIndex = 0;
+    uart6Obj.rdOutIndex = 0;
+    uart6Obj.isRdNotificationEnabled = false;
+    uart6Obj.isRdNotifyPersistently = false;
+    uart6Obj.rdThreshold = 0;
+
+    uart6Obj.wrCallback = NULL;
+    uart6Obj.wrInIndex = 0;
+    uart6Obj.wrOutIndex = 0;
+    uart6Obj.isWrNotificationEnabled = false;
+    uart6Obj.isWrNotifyPersistently = false;
+    uart6Obj.wrThreshold = 0;
+
     uart6Obj.errors = UART_ERROR_NONE;
+
+    if (UART6_IS_9BIT_MODE_ENABLED())
+    {
+        uart6Obj.rdBufferSize = UART6_READ_BUFFER_SIZE_9BIT;
+        uart6Obj.wrBufferSize = UART6_WRITE_BUFFER_SIZE_9BIT;
+    }
+    else
+    {
+        uart6Obj.rdBufferSize = UART6_READ_BUFFER_SIZE;
+        uart6Obj.wrBufferSize = UART6_WRITE_BUFFER_SIZE;
+    }
+
 
     /* Turn ON UART6 */
     U6MODESET = _U6MODE_ON_MASK;
+
+    /* Enable UART6_FAULT Interrupt */
+    IEC5SET = _IEC5_U6EIE_MASK;
+
+    /* Enable UART6_RX Interrupt */
+    IEC5SET = _IEC5_U6RXIE_MASK;
 }
 
 bool UART6_SerialSetup( UART_SERIAL_SETUP *setup, uint32_t srcClkFreq )
@@ -137,12 +170,6 @@ bool UART6_SerialSetup( UART_SERIAL_SETUP *setup, uint32_t srcClkFreq )
     int32_t brgValLow = 0;
     uint32_t brgVal = 0;
     uint32_t uartMode;
-
-    if((uart6Obj.rxBusyStatus == true) || (uart6Obj.txBusyStatus == true))
-    {
-        /* Transaction is in progress, so return without updating settings */
-        return status;
-    }
 
     if (setup != NULL)
     {
@@ -211,6 +238,17 @@ bool UART6_SerialSetup( UART_SERIAL_SETUP *setup, uint32_t srcClkFreq )
         /* Configure UART6 Baud Rate */
         U6BRG = brgVal;
 
+        if (UART6_IS_9BIT_MODE_ENABLED())
+        {
+            uart6Obj.rdBufferSize = UART6_READ_BUFFER_SIZE_9BIT;
+            uart6Obj.wrBufferSize = UART6_WRITE_BUFFER_SIZE_9BIT;
+        }
+        else
+        {
+            uart6Obj.rdBufferSize = UART6_READ_BUFFER_SIZE;
+            uart6Obj.wrBufferSize = UART6_WRITE_BUFFER_SIZE;
+        }
+
         U6MODESET = _U6MODE_ON_MASK;
 
         status = true;
@@ -219,73 +257,391 @@ bool UART6_SerialSetup( UART_SERIAL_SETUP *setup, uint32_t srcClkFreq )
     return status;
 }
 
-bool UART6_Read(void* buffer, const size_t size )
+/* This routine is only called from ISR. Hence do not disable/enable USART interrupts. */
+static inline bool UART6_RxPushByte(uint16_t rdByte)
 {
-    bool status = false;
-    uint8_t* lBuffer = (uint8_t* )buffer;
+    uint32_t tempInIndex;
+    bool isSuccess = false;
 
-    if(lBuffer != NULL)
+    tempInIndex = uart6Obj.rdInIndex + 1;
+
+    if (tempInIndex >= uart6Obj.rdBufferSize)
     {
-        /* Check if receive request is in progress */
-        if(uart6Obj.rxBusyStatus == false)
+        tempInIndex = 0;
+    }
+
+    if (tempInIndex == uart6Obj.rdOutIndex)
+    {
+        /* Queue is full - Report it to the application. Application gets a chance to free up space by reading data out from the RX ring buffer */
+        if(uart6Obj.rdCallback != NULL)
         {
-            /* Clear error flags and flush out error data that may have been received when no active request was pending */
-            UART6_ErrorClear();
+            uart6Obj.rdCallback(UART_EVENT_READ_BUFFER_FULL, uart6Obj.rdContext);
 
-            uart6Obj.rxBuffer = lBuffer;
-            uart6Obj.rxSize = size;
-            uart6Obj.rxProcessedSize = 0;
-            uart6Obj.rxBusyStatus = true;
-            uart6Obj.errors = UART_ERROR_NONE;
-            status = true;
+            /* Read the indices again in case application has freed up space in RX ring buffer */
+            tempInIndex = uart6Obj.rdInIndex + 1;
 
-            /* Enable UART6_FAULT Interrupt */
-            IEC5SET = _IEC5_U6EIE_MASK;
-
-            /* Enable UART6_RX Interrupt */
-            IEC5SET = _IEC5_U6RXIE_MASK;
+            if (tempInIndex >= uart6Obj.rdBufferSize)
+            {
+                tempInIndex = 0;
+            }
         }
     }
 
-    return status;
+    /* Attempt to push the data into the ring buffer */
+    if (tempInIndex != uart6Obj.rdOutIndex)
+    {
+        if (UART6_IS_9BIT_MODE_ENABLED())
+        {
+            ((uint16_t*)&UART6_ReadBuffer)[uart6Obj.rdInIndex] = rdByte;
+        }
+        else
+        {
+            UART6_ReadBuffer[uart6Obj.rdInIndex] = (uint8_t)rdByte;
+        }
+
+        uart6Obj.rdInIndex = tempInIndex;
+
+        isSuccess = true;
+    }
+    else
+    {
+        /* Queue is full. Data will be lost. */
+    }
+
+    return isSuccess;
 }
 
-bool UART6_Write( void* buffer, const size_t size )
+/* This routine is only called from ISR. Hence do not disable/enable USART interrupts. */
+static void UART6_ReadNotificationSend(void)
 {
-    bool status = false;
-    uint8_t* lBuffer = (uint8_t*)buffer;
+    uint32_t nUnreadBytesAvailable;
 
-    if(lBuffer != NULL)
+    if (uart6Obj.isRdNotificationEnabled == true)
     {
-        /* Check if transmit request is in progress */
-        if(uart6Obj.txBusyStatus == false)
-        {
-            uart6Obj.txBuffer = lBuffer;
-            uart6Obj.txSize = size;
-            uart6Obj.txProcessedSize = 0;
-            uart6Obj.txBusyStatus = true;
-            status = true;
+        nUnreadBytesAvailable = UART6_ReadCountGet();
 
-            /* Initiate the transfer by writing as many bytes as we can */
-             while((!(U6STA & _U6STA_UTXBF_MASK)) && (uart6Obj.txSize > uart6Obj.txProcessedSize) )
+        if(uart6Obj.rdCallback != NULL)
+        {
+            if (uart6Obj.isRdNotifyPersistently == true)
             {
-                if (( U6MODE & (_U6MODE_PDSEL0_MASK | _U6MODE_PDSEL1_MASK)) == (_U6MODE_PDSEL0_MASK | _U6MODE_PDSEL1_MASK))
+                if (nUnreadBytesAvailable >= uart6Obj.rdThreshold)
                 {
-                    /* 9-bit mode */
-                    U6TXREG = ((uint16_t*)uart6Obj.txBuffer)[uart6Obj.txProcessedSize++];
-                }
-                else
-                {
-                    /* 8-bit mode */
-                    U6TXREG = uart6Obj.txBuffer[uart6Obj.txProcessedSize++];
+                    uart6Obj.rdCallback(UART_EVENT_READ_THRESHOLD_REACHED, uart6Obj.rdContext);
                 }
             }
+            else
+            {
+                if (nUnreadBytesAvailable == uart6Obj.rdThreshold)
+                {
+                    uart6Obj.rdCallback(UART_EVENT_READ_THRESHOLD_REACHED, uart6Obj.rdContext);
+                }
+            }
+        }
+    }
+}
 
-            IEC5SET = _IEC5_U6TXIE_MASK;
+size_t UART6_Read(uint8_t* pRdBuffer, const size_t size)
+{
+    size_t nBytesRead = 0;
+    uint32_t rdOutIndex = 0;
+    uint32_t rdInIndex = 0;
+
+    /* Take a snapshot of indices to avoid creation of critical section */
+    rdOutIndex = uart6Obj.rdOutIndex;
+    rdInIndex = uart6Obj.rdInIndex;
+
+    while (nBytesRead < size)
+    {
+        if (rdOutIndex != rdInIndex)
+        {
+            if (UART6_IS_9BIT_MODE_ENABLED())
+            {
+                ((uint16_t*)pRdBuffer)[nBytesRead++] = ((uint16_t*)&UART6_ReadBuffer)[rdOutIndex++];
+            }
+            else
+            {
+                pRdBuffer[nBytesRead++] = UART6_ReadBuffer[rdOutIndex++];
+            }
+
+            if (rdOutIndex >= uart6Obj.rdBufferSize)
+            {
+                rdOutIndex = 0;
+            }
+        }
+        else
+        {
+            /* No more data available in the RX buffer */
+            break;
         }
     }
 
-    return status;
+    uart6Obj.rdOutIndex = rdOutIndex;
+
+    return nBytesRead;
+}
+
+size_t UART6_ReadCountGet(void)
+{
+    size_t nUnreadBytesAvailable;
+    uint32_t rdInIndex;
+    uint32_t rdOutIndex;
+
+    /* Take a snapshot of indices to avoid processing in critical section */
+    rdInIndex = uart6Obj.rdInIndex;
+    rdOutIndex = uart6Obj.rdOutIndex;
+
+    if ( rdInIndex >=  rdOutIndex)
+    {
+        nUnreadBytesAvailable =  rdInIndex -  rdOutIndex;
+    }
+    else
+    {
+        nUnreadBytesAvailable =  (uart6Obj.rdBufferSize -  rdOutIndex) + rdInIndex;
+    }
+
+    return nUnreadBytesAvailable;
+}
+
+size_t UART6_ReadFreeBufferCountGet(void)
+{
+    return (uart6Obj.rdBufferSize - 1) - UART6_ReadCountGet();
+}
+
+size_t UART6_ReadBufferSizeGet(void)
+{
+    return (uart6Obj.rdBufferSize - 1);
+}
+
+bool UART6_ReadNotificationEnable(bool isEnabled, bool isPersistent)
+{
+    bool previousStatus = uart6Obj.isRdNotificationEnabled;
+
+    uart6Obj.isRdNotificationEnabled = isEnabled;
+
+    uart6Obj.isRdNotifyPersistently = isPersistent;
+
+    return previousStatus;
+}
+
+void UART6_ReadThresholdSet(uint32_t nBytesThreshold)
+{
+    if (nBytesThreshold > 0)
+    {
+        uart6Obj.rdThreshold = nBytesThreshold;
+    }
+}
+
+void UART6_ReadCallbackRegister( UART_RING_BUFFER_CALLBACK callback, uintptr_t context)
+{
+    uart6Obj.rdCallback = callback;
+
+    uart6Obj.rdContext = context;
+}
+
+/* This routine is only called from ISR. Hence do not disable/enable USART interrupts. */
+static bool UART6_TxPullByte(uint16_t* pWrByte)
+{
+    bool isSuccess = false;
+    uint32_t wrOutIndex = uart6Obj.wrOutIndex;
+    uint32_t wrInIndex = uart6Obj.wrInIndex;
+
+    if (wrOutIndex != wrInIndex)
+    {
+        if (UART6_IS_9BIT_MODE_ENABLED())
+        {
+            *pWrByte = ((uint16_t*)&UART6_WriteBuffer)[wrOutIndex++];
+        }
+        else
+        {
+            *pWrByte = UART6_WriteBuffer[wrOutIndex++];
+        }
+
+        if (wrOutIndex >= uart6Obj.wrBufferSize)
+        {
+            wrOutIndex = 0;
+        }
+
+        uart6Obj.wrOutIndex = wrOutIndex;
+
+        isSuccess = true;
+    }
+
+    return isSuccess;
+}
+
+static inline bool UART6_TxPushByte(uint16_t wrByte)
+{
+    uint32_t tempInIndex;
+    bool isSuccess = false;
+
+    uint32_t wrOutIndex = uart6Obj.wrOutIndex;
+    uint32_t wrInIndex = uart6Obj.wrInIndex;
+
+    tempInIndex = wrInIndex + 1;
+
+    if (tempInIndex >= uart6Obj.wrBufferSize)
+    {
+        tempInIndex = 0;
+    }
+    if (tempInIndex != wrOutIndex)
+    {
+        if (UART6_IS_9BIT_MODE_ENABLED())
+        {
+            ((uint16_t*)&UART6_WriteBuffer)[wrInIndex] = wrByte;
+        }
+        else
+        {
+            UART6_WriteBuffer[wrInIndex] = (uint8_t)wrByte;
+        }
+
+        uart6Obj.wrInIndex = tempInIndex;
+
+        isSuccess = true;
+    }
+    else
+    {
+        /* Queue is full. Report Error. */
+    }
+
+    return isSuccess;
+}
+
+/* This routine is only called from ISR. Hence do not disable/enable USART interrupts. */
+static void UART6_WriteNotificationSend(void)
+{
+    uint32_t nFreeWrBufferCount;
+
+    if (uart6Obj.isWrNotificationEnabled == true)
+    {
+        nFreeWrBufferCount = UART6_WriteFreeBufferCountGet();
+
+        if(uart6Obj.wrCallback != NULL)
+        {
+            if (uart6Obj.isWrNotifyPersistently == true)
+            {
+                if (nFreeWrBufferCount >= uart6Obj.wrThreshold)
+                {
+                    uart6Obj.wrCallback(UART_EVENT_WRITE_THRESHOLD_REACHED, uart6Obj.wrContext);
+                }
+            }
+            else
+            {
+                if (nFreeWrBufferCount == uart6Obj.wrThreshold)
+                {
+                    uart6Obj.wrCallback(UART_EVENT_WRITE_THRESHOLD_REACHED, uart6Obj.wrContext);
+                }
+            }
+        }
+    }
+}
+
+static size_t UART6_WritePendingBytesGet(void)
+{
+    size_t nPendingTxBytes;
+
+    /* Take a snapshot of indices to avoid processing in critical section */
+
+    uint32_t wrOutIndex = uart6Obj.wrOutIndex;
+    uint32_t wrInIndex = uart6Obj.wrInIndex;
+
+    if ( wrInIndex >=  wrOutIndex)
+    {
+        nPendingTxBytes =  wrInIndex - wrOutIndex;
+    }
+    else
+    {
+        nPendingTxBytes =  (uart6Obj.wrBufferSize -  wrOutIndex) + wrInIndex;
+    }
+
+    return nPendingTxBytes;
+}
+
+size_t UART6_WriteCountGet(void)
+{
+    size_t nPendingTxBytes;
+
+    nPendingTxBytes = UART6_WritePendingBytesGet();
+
+    return nPendingTxBytes;
+}
+
+size_t UART6_Write(uint8_t* pWrBuffer, const size_t size )
+{
+    size_t nBytesWritten  = 0;
+
+    while (nBytesWritten < size)
+    {
+        if (UART6_IS_9BIT_MODE_ENABLED())
+        {
+            if (UART6_TxPushByte(((uint16_t*)pWrBuffer)[nBytesWritten]) == true)
+            {
+                nBytesWritten++;
+            }
+            else
+            {
+                /* Queue is full, exit the loop */
+                break;
+            }
+        }
+        else
+        {
+            if (UART6_TxPushByte(pWrBuffer[nBytesWritten]) == true)
+            {
+                nBytesWritten++;
+            }
+            else
+            {
+                /* Queue is full, exit the loop */
+                break;
+            }
+        }
+
+    }
+
+    /* Check if any data is pending for transmission */
+    if (UART6_WritePendingBytesGet() > 0)
+    {
+        /* Enable TX interrupt as data is pending for transmission */
+        UART6_TX_INT_ENABLE();
+    }
+
+    return nBytesWritten;
+}
+
+size_t UART6_WriteFreeBufferCountGet(void)
+{
+    return (uart6Obj.wrBufferSize - 1) - UART6_WriteCountGet();
+}
+
+size_t UART6_WriteBufferSizeGet(void)
+{
+    return (uart6Obj.wrBufferSize - 1);
+}
+
+bool UART6_WriteNotificationEnable(bool isEnabled, bool isPersistent)
+{
+    bool previousStatus = uart6Obj.isWrNotificationEnabled;
+
+    uart6Obj.isWrNotificationEnabled = isEnabled;
+
+    uart6Obj.isWrNotifyPersistently = isPersistent;
+
+    return previousStatus;
+}
+
+void UART6_WriteThresholdSet(uint32_t nBytesThreshold)
+{
+    if (nBytesThreshold > 0)
+    {
+        uart6Obj.wrThreshold = nBytesThreshold;
+    }
+}
+
+void UART6_WriteCallbackRegister( UART_RING_BUFFER_CALLBACK callback, uintptr_t context)
+{
+    uart6Obj.wrCallback = callback;
+
+    uart6Obj.wrContext = context;
 }
 
 UART_ERROR UART6_ErrorGet( void )
@@ -317,169 +673,78 @@ void UART6_AutoBaudSet( bool enable )
        direction of control is not allowed in this function.                      */
 }
 
-void UART6_ReadCallbackRegister( UART_CALLBACK callback, uintptr_t context )
-{
-    uart6Obj.rxCallback = callback;
-
-    uart6Obj.rxContext = context;
-}
-
-bool UART6_ReadIsBusy( void )
-{
-    return uart6Obj.rxBusyStatus;
-}
-
-size_t UART6_ReadCountGet( void )
-{
-    return uart6Obj.rxProcessedSize;
-}
-
-bool UART6_ReadAbort(void)
-{
-    if (uart6Obj.rxBusyStatus == true)
-    {
-        /* Disable the fault interrupt */
-        IEC5CLR = _IEC5_U6EIE_MASK;
-
-        /* Disable the receive interrupt */
-        IEC5CLR = _IEC5_U6RXIE_MASK;
-
-        uart6Obj.rxBusyStatus = false;
-
-        /* If required application should read the num bytes processed prior to calling the read abort API */
-        uart6Obj.rxSize = uart6Obj.rxProcessedSize = 0;
-    }
-
-    return true;
-}
-
-void UART6_WriteCallbackRegister( UART_CALLBACK callback, uintptr_t context )
-{
-    uart6Obj.txCallback = callback;
-
-    uart6Obj.txContext = context;
-}
-
-bool UART6_WriteIsBusy( void )
-{
-    return uart6Obj.txBusyStatus;
-}
-
-size_t UART6_WriteCountGet( void )
-{
-    return uart6Obj.txProcessedSize;
-}
-
 void UART6_FAULT_InterruptHandler (void)
 {
     /* Save the error to be reported later */
     uart6Obj.errors = (UART_ERROR)(U6STA & (_U6STA_OERR_MASK | _U6STA_FERR_MASK | _U6STA_PERR_MASK));
 
-    /* Disable the fault interrupt */
-    IEC5CLR = _IEC5_U6EIE_MASK;
-
-    /* Disable the receive interrupt */
-    IEC5CLR = _IEC5_U6RXIE_MASK;
-
-    /* Clear size and rx status */
-    uart6Obj.rxBusyStatus = false;
-
     UART6_ErrorClear();
 
-    /* Client must call UARTx_ErrorGet() function to get the errors */
-    if( uart6Obj.rxCallback != NULL )
+    /* Client must call UARTx_ErrorGet() function to clear the errors */
+    if( uart6Obj.rdCallback != NULL )
     {
-        uart6Obj.rxCallback(uart6Obj.rxContext);
+        uart6Obj.rdCallback(UART_EVENT_READ_ERROR, uart6Obj.rdContext);
     }
 }
 
 void UART6_RX_InterruptHandler (void)
 {
-    if(uart6Obj.rxBusyStatus == true)
+    /* Clear UART6 RX Interrupt flag */
+    IFS5CLR = _IFS5_U6RXIF_MASK;
+
+    /* Keep reading until there is a character availabe in the RX FIFO */
+    while((U6STA & _U6STA_URXDA_MASK) == _U6STA_URXDA_MASK)
     {
-        /* Clear UART6 RX Interrupt flag */
-        IFS5CLR = _IFS5_U6RXIF_MASK;
-
-        while((_U6STA_URXDA_MASK == (U6STA & _U6STA_URXDA_MASK)) && (uart6Obj.rxSize > uart6Obj.rxProcessedSize) )
+        if (UART6_RxPushByte(  (uint16_t )(U6RXREG) ) == true)
         {
-            if (( U6MODE & (_U6MODE_PDSEL0_MASK | _U6MODE_PDSEL1_MASK)) == (_U6MODE_PDSEL0_MASK | _U6MODE_PDSEL1_MASK))
-            {
-                /* 9-bit mode */
-                ((uint16_t*)uart6Obj.rxBuffer)[uart6Obj.rxProcessedSize++] = (uint16_t )(U6RXREG);
-            }
-            else
-            {
-                /* 8-bit mode */
-                uart6Obj.rxBuffer[uart6Obj.rxProcessedSize++] = (uint8_t )(U6RXREG);
-            }
+            UART6_ReadNotificationSend();
         }
-
-
-        /* Check if the buffer is done */
-        if(uart6Obj.rxProcessedSize >= uart6Obj.rxSize)
+        else
         {
-            uart6Obj.rxBusyStatus = false;
-
-            /* Disable the fault interrupt */
-            IEC5CLR = _IEC5_U6EIE_MASK;
-
-            /* Disable the receive interrupt */
-            IEC5CLR = _IEC5_U6RXIE_MASK;
-
-            if(uart6Obj.rxCallback != NULL)
-            {
-                uart6Obj.rxCallback(uart6Obj.rxContext);
-            }
+            /* UART RX buffer is full */
         }
-    }
-    else
-    {
-        // Nothing to process
-        ;
     }
 }
 
 void UART6_TX_InterruptHandler (void)
 {
-    if(uart6Obj.txBusyStatus == true)
+    uint16_t wrByte;
+
+    /* Check if any data is pending for transmission */
+    if (UART6_WritePendingBytesGet() > 0)
     {
         /* Clear UART6TX Interrupt flag */
         IFS5CLR = _IFS5_U6TXIF_MASK;
 
-        while((!(U6STA & _U6STA_UTXBF_MASK)) && (uart6Obj.txSize > uart6Obj.txProcessedSize) )
+        /* Keep writing to the TX FIFO as long as there is space */
+        while(!(U6STA & _U6STA_UTXBF_MASK))
         {
-            if (( U6MODE & (_U6MODE_PDSEL0_MASK | _U6MODE_PDSEL1_MASK)) == (_U6MODE_PDSEL0_MASK | _U6MODE_PDSEL1_MASK))
+            if (UART6_TxPullByte(&wrByte) == true)
             {
-                /* 9-bit mode */
-                U6TXREG = ((uint16_t*)uart6Obj.txBuffer)[uart6Obj.txProcessedSize++];
+                if (UART6_IS_9BIT_MODE_ENABLED())
+                {
+                    U6TXREG = wrByte;
+                }
+                else
+                {
+                    U6TXREG = (uint8_t)wrByte;
+                }
+
+                /* Send notification */
+                UART6_WriteNotificationSend();
             }
             else
             {
-                /* 8-bit mode */
-                U6TXREG = uart6Obj.txBuffer[uart6Obj.txProcessedSize++];
-            }
-        }
-
-
-        /* Check if the buffer is done */
-        if(uart6Obj.txProcessedSize >= uart6Obj.txSize)
-        {
-            uart6Obj.txBusyStatus = false;
-
-            /* Disable the transmit interrupt, to avoid calling ISR continuously */
-            IEC5CLR = _IEC5_U6TXIE_MASK;
-
-            if(uart6Obj.txCallback != NULL)
-            {
-                uart6Obj.txCallback(uart6Obj.txContext);
+                /* Nothing to transmit. Disable the data register empty interrupt. */
+                UART6_TX_INT_DISABLE();
+                break;
             }
         }
     }
     else
     {
-        // Nothing to process
-        ;
+        /* Nothing to transmit. Disable the data register empty interrupt. */
+        UART6_TX_INT_DISABLE();
     }
 }
-
 
