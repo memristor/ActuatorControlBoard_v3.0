@@ -19,7 +19,7 @@
 #include "peripheral/uart/plib_uart3.h"
 #include "device.h"
 
-#define AX12_TIMEOUT 15//ms
+
 //#define AX12_MESSAGE_DEBUG
 //#define AX12_INITSPEED_DEBUG
 

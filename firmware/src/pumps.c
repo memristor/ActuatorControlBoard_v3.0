@@ -47,6 +47,8 @@ int VacuumPump_OnMessage(can_t Pump_CanMsg)
                 case 0:
                     SinglePump_State(instances[i].pumpPin, PIN_LOW);
                     SingleSwitch_State(instances[i].switchPin, PIN_HIGH);
+                    CORETIMER_DelayMs(VACUUM_SWITCH_RELASE_TIME);
+                    SingleSwitch_State(instances[i].switchPin, PIN_LOW);
                     break;
                 case 1:
                     SinglePump_State(instances[i].pumpPin, PIN_HIGH);

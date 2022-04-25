@@ -18,7 +18,8 @@
 #include "ax12.h"
 
 #define VACUUM_PUMP_CONFIG_COUNT_MAX 6
-    
+#define VACUUM_SWITCH_RELASE_TIME 200
+
 
 typedef struct _VacuumPump{
     uint8_t pumpPin;
