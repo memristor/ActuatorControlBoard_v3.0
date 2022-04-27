@@ -48,9 +48,10 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
-#include "peripheral/uart/plib_uart3.h"
 #include "peripheral/coretimer/plib_coretimer.h"
+#include "peripheral/uart/plib_uart3.h"
 #include "peripheral/canfd/plib_canfd4.h"
+#include "peripheral/tmr/plib_tmr2.h"
 #include "peripheral/clk/plib_clk.h"
 #include "peripheral/gpio/plib_gpio.h"
 #include "peripheral/evic/plib_evic.h"
@@ -96,7 +97,6 @@
 #define SWITCH_4 4
 #define SWITCH_5 5
 #define SWITCH_6 6
-
 
 // DOM-IGNORE-BEGIN
 #ifdef __cplusplus  // Provide C++ Compatibility

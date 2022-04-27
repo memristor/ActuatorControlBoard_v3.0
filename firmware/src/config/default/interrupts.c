@@ -51,6 +51,7 @@
 
 #include "interrupts.h"
 #include "definitions.h"
+#include "pumps.h"
 
 
 // *****************************************************************************
@@ -60,6 +61,7 @@
 // *****************************************************************************
 
 
+void TIMER_2_InterruptHandler( void );
 void UART3_FAULT_InterruptHandler( void );
 void UART3_RX_InterruptHandler( void );
 void UART3_TX_InterruptHandler( void );
@@ -67,9 +69,18 @@ void UART6_FAULT_InterruptHandler( void );
 void UART6_RX_InterruptHandler( void );
 void UART6_TX_InterruptHandler( void );
 
+extern volatile uint32_t sys_time;
 
 
 /* All the handlers are defined here.  Each will call its PLIB-specific function. */
+void __ISR(_TIMER_2_VECTOR, ipl1SRS) TIMER_2_Handler (void)
+{
+    TIMER_2_InterruptHandler();
+    
+    sys_time++;
+    VacuumPump_UpdateStates();    
+}
+
 void __ISR(_UART3_FAULT_VECTOR, ipl1SRS) UART3_FAULT_Handler (void)
 {
     UART3_FAULT_InterruptHandler();

@@ -21,6 +21,7 @@
 static VacuumPump instances[VACUUM_PUMP_CONFIG_COUNT_MAX];
 
 static uint8_t count = 0;
+extern volatile uint32_t sys_time;
 
 
 void VacuumPump_Add(uint8_t pumpPin, uint8_t switchPin, uint16_t number)
@@ -29,6 +30,7 @@ void VacuumPump_Add(uint8_t pumpPin, uint8_t switchPin, uint16_t number)
     instances[count].pumpPin = pumpPin;
     instances[count].switchPin = switchPin;
     instances[count].CanID = VACUUM_PUMP_CANID + number;
+    instances[count].state = VACUUM_PUMP_STATE_OFF;
     
     // Return index
     count++;
@@ -47,12 +49,15 @@ int VacuumPump_OnMessage(can_t Pump_CanMsg)
                 case 0:
                     SinglePump_State(instances[i].pumpPin, PIN_LOW);
                     SingleSwitch_State(instances[i].switchPin, PIN_HIGH);
-                    CORETIMER_DelayMs(VACUUM_SWITCH_RELASE_TIME);
-                    SingleSwitch_State(instances[i].switchPin, PIN_LOW);
+                    instances[i].state = VACUUM_PUMP_STATE_RELEASING;
+                    instances[i].delay_counter = sys_time;
+                    //CORETIMER_DelayMs(VACUUM_SWITCH_RELASE_TIME);
+                    //SingleSwitch_State(instances[i].switchPin, PIN_LOW);
                     break;
                 case 1:
                     SinglePump_State(instances[i].pumpPin, PIN_HIGH);
                     SingleSwitch_State(instances[i].switchPin, PIN_LOW);
+                    instances[i].state = VACUUM_PUMP_STATE_ON;
                     break;
             }
            
@@ -111,5 +116,18 @@ void SingleSwitch_State(uint8_t switchPin, PinValue value)
         case SWITCH_6:
             RA11 = value;
             break;
+    }
+}
+
+void VacuumPump_UpdateStates()
+{
+    for(int i = 0; i < count; i++)
+    {
+        if ((sys_time - instances[i].delay_counter >= VACUUM_SWITCH_RELASE_TIME)
+                && instances[i].state == VACUUM_PUMP_STATE_RELEASING)
+        {
+            SingleSwitch_State(instances[i].switchPin, PIN_LOW);
+            instances[i].state = VACUUM_PUMP_STATE_OFF;
+        }
     }
 }

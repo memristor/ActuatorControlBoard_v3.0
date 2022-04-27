@@ -21,7 +21,7 @@
 #include "can.h"
 
 
-#define AX12_TIMEOUT 5//15//ms
+#define AX12_TIMEOUT 20//15//ms
 
 typedef enum _servoSelect{
     AX12 = 0,

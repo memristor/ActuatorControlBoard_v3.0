@@ -4,8 +4,8 @@
 
 
 project: PIC32MK_ActuatorControlBoard_v3.0
-creation_date: 2022-04-15T16:09:19.275+02:00[Europe/Belgrade]    # ISO 8601 format: https://www.w3.org/TR/NOTE-datetime
-operating_system: Linux
+creation_date: 2022-04-27T13:35:27.330+02:00[Europe/Prague]    # ISO 8601 format: https://www.w3.org/TR/NOTE-datetime
+operating_system: Windows 10
 mhc_mode: IDE            # [IDE|Standalone|Headless]
 mhc_version: v3.8.4
 mplabx_version: v6.00        # if MPLAB X plugin only
